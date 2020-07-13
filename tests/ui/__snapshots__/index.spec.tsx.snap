@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home has expected content with deep render 1`] = `
+<a
+  className="my-button my-button--style-ROUNDED my-button--color-WHITE_BLACK my-button--size-MEDIUM"
+  onClick={[Function]}
+>
+  <button>
+    My button
+  </button>
+</a>
+`;
+
+exports[`Home rendered with all posible props 1`] = `
+<Fragment>
+  <div
+    className="root className"
+  >
+    <div
+      className="imageContainer"
+      style={
+        Object {
+          "backgroundImage": "url(https://www.example.com/eifel.jpg)",
+          "backgroundSize": "cover",
+        }
+      }
+    />
+  </div>
+  <img
+    hidden={true}
+    onError={[Function]}
+    onLoad={[Function]}
+    src="https://www.example.com/eifel.jpg"
+  />
+</Fragment>
+`;
+
+exports[`Home rendered with minimum set of props 1`] = `
+<Fragment>
+  <div
+    className="root"
+  >
+    <div
+      className="imageContainer"
+      style={
+        Object {
+          "backgroundImage": "url(https://www.example.com/eifel.jpg)",
+          "backgroundSize": "contain",
+        }
+      }
+    />
+  </div>
+  <img
+    hidden={true}
+    src="https://www.example.com/eifel.jpg"
+  />
+</Fragment>
+`;
