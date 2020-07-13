@@ -4,7 +4,7 @@
   "description": "Render image in fit, fill or actual mode",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/aneldev/dyna-image"
   },
   "private": false,
   "sideEffects": false,
