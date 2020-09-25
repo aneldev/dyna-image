@@ -21,13 +21,14 @@ describe('Home', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('rendered with all posible props', () => {
+  it('rendered with all possible props', () => {
     const wrapper = enzyme.shallow(
       (
         <DynaImage
           className="className"
           src="https://www.example.com/eifel.jpg"
           mode={EImageMode.FILL}
+          alt="Profile photo"
           onLoad={() => undefined}
           onError={() => undefined}
         />

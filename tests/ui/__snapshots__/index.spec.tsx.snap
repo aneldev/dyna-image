@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home rendered with all posible props 1`] = `
+exports[`Home rendered with all possible props 1`] = `
 <Fragment>
   <div
     className="root className"
@@ -16,6 +16,7 @@ exports[`Home rendered with all posible props 1`] = `
     />
   </div>
   <img
+    alt="Profile photo"
     hidden={true}
     onError={[Function]}
     onLoad={[Function]}
