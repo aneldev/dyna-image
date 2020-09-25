@@ -2,6 +2,7 @@ export interface IDynaImageProps {
     className?: string;
     src: string;
     mode?: EImageMode;
+    alt?: string;
     onLoad?: () => void;
     onError?: (error: any) => void;
 }

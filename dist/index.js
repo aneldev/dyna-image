@@ -822,6 +822,7 @@ exports.DynaImage = function (props) {
       src = props.src,
       _a = props.mode,
       mode = _a === void 0 ? EImageMode.FIT : _a,
+      alt = props.alt,
       onLoad = props.onLoad,
       onError = props.onError;
   var style = {
@@ -847,6 +848,7 @@ exports.DynaImage = function (props) {
   })), React.createElement("img", {
     hidden: true,
     src: src,
+    alt: alt,
     onLoad: onLoad,
     onError: onError
   }));
