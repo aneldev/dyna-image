@@ -10,6 +10,7 @@ export interface IDynaImageProps {
   src: string;
   mode?: EImageMode;    // Default: EImageMode.FIT
   alt?: string;
+  content?: JSX.Element;
   onLoad?: () => void;
   onError?: (error: any) => void;
 }
@@ -26,6 +27,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     src,
     mode = EImageMode.FIT,
     alt,
+    content,
     onLoad,
     onError,
   } = props;
@@ -47,7 +49,13 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
         <div
           className={styles.imageContainer}
           style={style}
-        />
+        >
+          {!!content && (
+            <div className={styles.contentContainer}>
+              {content}
+            </div>
+          )}
+        </div>
       </div>
       <img
         hidden
