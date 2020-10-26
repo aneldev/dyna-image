@@ -3,6 +3,7 @@ export interface IDynaImageProps {
     src: string;
     mode?: EImageMode;
     alt?: string;
+    content?: JSX.Element;
     onLoad?: () => void;
     onError?: (error: any) => void;
 }

@@ -702,12 +702,13 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, ".DynaImage-module-root--1YPv5yzG5UqC {\n  width: 100%;\n  height: 100%;\n}\n.DynaImage-module-imageContainer--36M3tFtJbOOT {\n  width: 100%;\n  height: 100%;\n  background-position: center center;\n  background-repeat: no-repeat;\n}\n", ""]);
+exports.push([module.i, ".DynaImage-module-root--1YPv5yzG5UqC {\n  width: 100%;\n  height: 100%;\n}\n.DynaImage-module-imageContainer--36M3tFtJbOOT {\n  width: 100%;\n  height: 100%;\n  background-position: center center;\n  background-repeat: no-repeat;\n  position: relative;\n}\n.DynaImage-module-contentContainer--3xbQSbz0jif1 {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n", ""]);
 
 // exports
 exports.locals = {
 	"root": "DynaImage-module-root--1YPv5yzG5UqC",
-	"imageContainer": "DynaImage-module-imageContainer--36M3tFtJbOOT"
+	"imageContainer": "DynaImage-module-imageContainer--36M3tFtJbOOT",
+	"contentContainer": "DynaImage-module-contentContainer--3xbQSbz0jif1"
 };
 
 /***/ }),
@@ -823,6 +824,7 @@ exports.DynaImage = function (props) {
       _a = props.mode,
       mode = _a === void 0 ? EImageMode.FIT : _a,
       alt = props.alt,
+      content = props.content,
       onLoad = props.onLoad,
       onError = props.onError;
   var style = {
@@ -845,7 +847,9 @@ exports.DynaImage = function (props) {
   }, React.createElement("div", {
     className: styles.imageContainer,
     style: style
-  })), React.createElement("img", {
+  }, !!content && React.createElement("div", {
+    className: styles.contentContainer
+  }, content))), React.createElement("img", {
     hidden: true,
     src: src,
     alt: alt,
