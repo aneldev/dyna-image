@@ -54,8 +54,8 @@ const useStyles = makeStyles(() => {
     },
     loader: {
       position: 'absolute',
-      top: '50%',
-      left: '50%',
+      top: 'calc(50% - 20px)',
+      left: 'calc(50% - 20px)',
     },
   });
 });
