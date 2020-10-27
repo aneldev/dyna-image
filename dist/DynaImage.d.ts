@@ -4,6 +4,8 @@ export interface IDynaImageProps {
     mode?: EImageMode;
     alt?: string;
     content?: JSX.Element;
+    showLoadingSpinner?: boolean;
+    showBrokenImageOnFail?: boolean;
     onLoad?: () => void;
     onError?: (error: any) => void;
 }
