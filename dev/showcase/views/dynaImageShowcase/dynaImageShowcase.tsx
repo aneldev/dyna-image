@@ -26,6 +26,7 @@ export const dynaImageShowcase: IShowcaseView = {
       props: {
         src: 'https://i.gifer.com/8Gkn.gif',
         mode: EImageMode.ACTUAL,
+        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -36,6 +37,7 @@ export const dynaImageShowcase: IShowcaseView = {
       props: {
         src: 'https://i.gifer.com/8Gkn.gif',
         mode: EImageMode.FIT,
+        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -46,6 +48,7 @@ export const dynaImageShowcase: IShowcaseView = {
       props: {
         src: 'https://i.gifer.com/8Gkn.gif',
         mode: EImageMode.FILL,
+        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -56,6 +59,7 @@ export const dynaImageShowcase: IShowcaseView = {
       props: {
         src: 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV',
         mode: EImageMode.ACTUAL,
+        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -66,6 +70,7 @@ export const dynaImageShowcase: IShowcaseView = {
       props: {
         src: 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV',
         mode: EImageMode.FIT,
+        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -76,6 +81,18 @@ export const dynaImageShowcase: IShowcaseView = {
       props: {
         src: 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV',
         mode: EImageMode.FILL,
+        showLoadingSpinner: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'error-loading',
+      title: 'Load error',
+      props: {
+        src: 'https://www.example.com/no-exist-jpg',
+        mode: EImageMode.FILL,
+        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -94,6 +111,7 @@ export const dynaImageShowcase: IShowcaseView = {
               boxShadow: 'red 0px 0px 32px 3px inset',
             }}
           />,
+        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,

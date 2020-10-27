@@ -46,8 +46,24 @@ yarn start
 export interface IDynaImageProps {
   className?: string;
   src: string;
-  mode?: EImageMode;    // Default: EImageMode.FIT
+  mode?: EImageMode;                // Default: EImageMode.FIT
+  alt?: string;                     // For the image tag
+  content?: JSX.Element;
+  showLoadingSpinner?: boolean;     // Default: false
+  showBrokenImageOnFail?: boolean;  // Default: true
   onLoad?: () => void;
   onError?: (error: any) => void;
 }
 ```
+
+# `content` property
+
+Allows rendering above the image. The container has the full width and height.
+
+# `showLoadingSpinner` property
+
+On loading, shows the Material UI CircularProgress animated icon.
+
+# `showBrokenImageOnFail` property
+
+On failed load, shows the Material UI BrokenImage icon.
