@@ -67,3 +67,15 @@ On loading, shows the Material UI CircularProgress animated icon.
 # `showBrokenImageOnFail` property
 
 On failed load, shows the Material UI BrokenImage icon.
+
+# Change log
+
+## 1.2.3
+
+First version.
+
+Works with React 16
+
+## 2.0.0
+
+Works with React 17
