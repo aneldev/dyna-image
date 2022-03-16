@@ -1,5 +1,7 @@
 import * as React from "react";
-import {CSSProperties, useEffect, useState} from "react";
+import {
+  CSSProperties, useEffect, useState,
+} from "react";
 
 import {cn} from "./cn";
 import {Loading} from "./Loading";
@@ -14,8 +16,8 @@ export interface IDynaImageProps {
   mode?: EImageMode;                // Default: EImageMode.FIT
   alt?: string;
   content?: JSX.Element;
-  showLoadingSpinner?: boolean;     // Default: false
-  showBrokenImageOnFail?: boolean;  // Default: true
+  showLoadingSpinner?: boolean;     // Default is false
+  showBrokenImageOnFail?: boolean;  // Default is true
   onLoad?: () => void;
   onError?: (error: any) => void;
 }

@@ -4,9 +4,12 @@ import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import * as enzyme from 'enzyme';
 
-configure({adapter: new Adapter()});
+import {
+  DynaImage,
+  EImageMode,
+} from "../../src";
 
-import {DynaImage, EImageMode} from "../../src";
+configure({adapter: new Adapter()});
 
 configure({adapter: new Adapter()});
 

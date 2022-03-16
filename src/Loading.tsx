@@ -1,17 +1,17 @@
 import * as React from "react";
 
-export interface ILoadingProps {
-  className?: string;
-  style?: React.CSSProperties;
-  isLoading: boolean;
-  showCircularIcon?: boolean; // default: true
-  children: any;
-}
-
 import {CircularProgress} from "@material-ui/core";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import createStyles from "@material-ui/core/styles/createStyles";
+
+export interface ILoadingProps {
+  className?: string;
+  style?: React.CSSProperties;
+  isLoading: boolean;
+  showCircularIcon?: boolean; // Default: true
+  children: any;
+}
 
 export const Loading = (props: ILoadingProps) => {
   const {
@@ -46,9 +46,7 @@ export const Loading = (props: ILoadingProps) => {
 
 const useStyles = makeStyles(() => {
   return createStyles({
-    root: {
-      position: 'relative',
-    },
+    root: {position: 'relative'},
     loadingContainer: {
       position: 'absolute',
       top: 0,
