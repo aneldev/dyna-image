@@ -1,9 +1,10 @@
-import "jest";
-
-import * as enzyme from 'enzyme';
 import {configure} from 'enzyme';
-import * as Adapter from 'enzyme-adapter-react-16';
+import Adapter from 'enzyme-adapter-react-16';
+
 import * as React from 'react';
+import * as enzyme from 'enzyme';
+
+configure({adapter: new Adapter()});
 
 import {DynaImage, EImageMode} from "../../src";
 

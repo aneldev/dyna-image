@@ -2,12 +2,11 @@
 
 exports[`Home rendered with all possible props 1`] = `
 <Fragment>
-  <Component
-    className="root className"
+  <Loading
+    className="className"
     isLoading={false}
   >
     <div
-      className="imageContainer"
       style={
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
@@ -15,7 +14,7 @@ exports[`Home rendered with all possible props 1`] = `
         }
       }
     />
-  </Component>
+  </Loading>
   <img
     alt="Profile photo"
     hidden={true}
@@ -28,12 +27,11 @@ exports[`Home rendered with all possible props 1`] = `
 
 exports[`Home rendered with minimum set of props 1`] = `
 <Fragment>
-  <Component
-    className="root"
+  <Loading
+    className=""
     isLoading={false}
   >
     <div
-      className="imageContainer"
       style={
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
@@ -41,7 +39,7 @@ exports[`Home rendered with minimum set of props 1`] = `
         }
       }
     />
-  </Component>
+  </Loading>
   <img
     hidden={true}
     onError={[Function]}
