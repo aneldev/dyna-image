@@ -2,6 +2,7 @@ import * as React from "react";
 
 export interface ILoadingProps {
   className?: string;
+  style?: React.CSSProperties;
   isLoading: boolean;
   showCircularIcon?: boolean; // default: true
   children: any;
@@ -15,6 +16,7 @@ import createStyles from "@material-ui/core/styles/createStyles";
 export const Loading = (props: ILoadingProps) => {
   const {
     className,
+    style,
     isLoading,
     showCircularIcon = true,
     children,
@@ -22,7 +24,10 @@ export const Loading = (props: ILoadingProps) => {
   const classes = useStyles({});
 
   return (
-    <div className={[classes.root, className].filter(Boolean).join(' ')}>
+    <div
+      className={[classes.root, className].filter(Boolean).join(' ')}
+      style={style}
+    >
       {children}
       {isLoading && (
         <div className={classes.loadingContainer}>

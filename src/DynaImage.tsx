@@ -9,6 +9,7 @@ import BrokenImageIcon from '@material-ui/icons/BrokenImage';
 
 export interface IDynaImageProps {
   className?: string;
+  style?: React.CSSProperties;
   src: string;
   mode?: EImageMode;                // Default: EImageMode.FIT
   alt?: string;
@@ -28,6 +29,7 @@ export enum EImageMode {
 export const DynaImage = (props: IDynaImageProps): JSX.Element => {
   const {
     className,
+    style: userStyle,
     src,
     mode = EImageMode.FIT,
     alt,
@@ -74,6 +76,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     <>
       <Loading
         className={cn(styles.root, className)}
+        style={userStyle}
         isLoading={showLoadingSpinner && isLoading}
       >
         <div

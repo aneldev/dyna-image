@@ -1,5 +1,7 @@
+import * as React from "react";
 export interface IDynaImageProps {
     className?: string;
+    style?: React.CSSProperties;
     src: string;
     mode?: EImageMode;
     alt?: string;

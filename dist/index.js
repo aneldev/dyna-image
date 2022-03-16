@@ -109,78 +109,78 @@ return /******/ (function(modules) { // webpackBootstrap
 	Author Tobias Koppers @sokra
 */
 // css base code, injected by the css-loader
-module.exports = function (useSourceMap) {
-  var list = []; // return the list of modules as css string
+module.exports = function(useSourceMap) {
+	var list = [];
 
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = cssWithMappingToString(item, useSourceMap);
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
 
-      if (item[2]) {
-        return "@media " + item[2] + "{" + content + "}";
-      } else {
-        return content;
-      }
-    }).join("");
-  }; // import a list of modules into the list
-
-
-  list.i = function (modules, mediaQuery) {
-    if (typeof modules === "string") modules = [[null, modules, ""]];
-    var alreadyImportedModules = {};
-
-    for (var i = 0; i < this.length; i++) {
-      var id = this[i][0];
-      if (typeof id === "number") alreadyImportedModules[id] = true;
-    }
-
-    for (i = 0; i < modules.length; i++) {
-      var item = modules[i]; // skip already imported module
-      // this implementation is not 100% perfect for weird media query combinations
-      //  when a module is imported multiple times with different media queries.
-      //  I hope this will never occur (Hey this way we have smaller bundles)
-
-      if (typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-        if (mediaQuery && !item[2]) {
-          item[2] = mediaQuery;
-        } else if (mediaQuery) {
-          item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-        }
-
-        list.push(item);
-      }
-    }
-  };
-
-  return list;
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
 };
 
 function cssWithMappingToString(item, useSourceMap) {
-  var content = item[1] || '';
-  var cssMapping = item[3];
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
 
-  if (!cssMapping) {
-    return content;
-  }
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
 
-  if (useSourceMap && typeof btoa === 'function') {
-    var sourceMapping = toComment(cssMapping);
-    var sourceURLs = cssMapping.sources.map(function (source) {
-      return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
-    });
-    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-  }
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
 
-  return [content].join('\n');
-} // Adapted from convert-source-map (MIT)
-
-
-function toComment(sourceMap) {
-  // eslint-disable-next-line no-undef
-  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-  return '/*# ' + data + ' */';
+	return [content].join('\n');
 }
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
 
 /***/ }),
 
@@ -602,6 +602,7 @@ function updateLink (link, options, obj) {
 /*! all exports used */
 /***/ (function(module, exports) {
 
+
 /**
  * When source maps are enabled, `style-loader` uses a link element with a data-uri to
  * embed the css on the page. This breaks all relative urls because now they are relative to a
@@ -614,78 +615,83 @@ function updateLink (link, options, obj) {
  * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
  *
  */
+
 module.exports = function (css) {
   // get current location
   var location = typeof window !== "undefined" && window.location;
 
   if (!location) {
     throw new Error("fixUrls requires window.location");
-  } // blank or null?
+  }
 
-
-  if (!css || typeof css !== "string") {
-    return css;
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
   }
 
   var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/"); // convert each url(...)
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
 
-  /*
-  This regular expression is just a way to recursively match brackets within
-  a string.
-  	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-     (  = Start a capturing group
-       (?:  = Start a non-capturing group
-           [^)(]  = Match anything that isn't a parentheses
-           |  = OR
-           \(  = Match a start parentheses
-               (?:  = Start another non-capturing groups
-                   [^)(]+  = Match anything that isn't a parentheses
-                   |  = OR
-                   \(  = Match a start parentheses
-                       [^)(]*  = Match anything that isn't a parentheses
-                   \)  = Match a end parentheses
-               )  = End Group
-               *\) = Match anything and then a close parens
-           )  = Close non-capturing group
-           *  = Match anything
-        )  = Close capturing group
-   \)  = Match a close parens
-  	 /gi  = Get all matches, not the first.  Be case insensitive.
-   */
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
 
-  var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (fullMatch, origUrl) {
-    // strip quotes (if they exist)
-    var unquotedOrigUrl = origUrl.trim().replace(/^"(.*)"$/, function (o, $1) {
-      return $1;
-    }).replace(/^'(.*)'$/, function (o, $1) {
-      return $1;
-    }); // already a full url? no change
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
 
-    if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
-      return fullMatch;
-    } // convert the url to a full url
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
 
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
 
-    var newUrl;
+		// convert the url to a full url
+		var newUrl;
 
-    if (unquotedOrigUrl.indexOf("//") === 0) {
-      //TODO: should we add protocol?
-      newUrl = unquotedOrigUrl;
-    } else if (unquotedOrigUrl.indexOf("/") === 0) {
-      // path should be relative to the base url
-      newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-    } else {
-      // path should be relative to current directory
-      newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-    } // send back the fixed url(...)
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
 
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
 
-    return "url(" + JSON.stringify(newUrl) + ")";
-  }); // send back the fixed css
-
-  return fixedCss;
+	// send back the fixed css
+	return fixedCss;
 };
+
 
 /***/ }),
 
@@ -723,30 +729,29 @@ exports.locals = {
 /*! all exports used */
 /***/ (function(module, exports) {
 
-module.exports = function (module) {
-  if (!module.webpackPolyfill) {
-    module.deprecate = function () {};
-
-    module.paths = []; // module.parent = undefined by default
-
-    if (!module.children) module.children = [];
-    Object.defineProperty(module, "loaded", {
-      enumerable: true,
-      get: function () {
-        return module.l;
-      }
-    });
-    Object.defineProperty(module, "id", {
-      enumerable: true,
-      get: function () {
-        return module.i;
-      }
-    });
-    module.webpackPolyfill = 1;
-  }
-
-  return module;
+module.exports = function(module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
 };
+
 
 /***/ }),
 
@@ -801,12 +806,58 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   return a;
 };
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function get() {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DynaImage = exports.EImageMode = void 0;
 
-var React = __webpack_require__(/*! react */ "react");
+var React = __importStar(__webpack_require__(/*! react */ "react"));
 
 var react_1 = __webpack_require__(/*! react */ "react");
 
@@ -814,9 +865,9 @@ var cn_1 = __webpack_require__(/*! ./cn */ "./src/cn.ts");
 
 var Loading_1 = __webpack_require__(/*! ./Loading */ "./src/Loading.tsx");
 
-var styles = __webpack_require__(/*! ./DynaImage.module.less */ "./src/DynaImage.module.less");
+var styles = __importStar(__webpack_require__(/*! ./DynaImage.module.less */ "./src/DynaImage.module.less"));
 
-var BrokenImage_1 = __webpack_require__(/*! @material-ui/icons/BrokenImage */ "@material-ui/icons/BrokenImage");
+var BrokenImage_1 = __importDefault(__webpack_require__(/*! @material-ui/icons/BrokenImage */ "@material-ui/icons/BrokenImage"));
 
 var EImageMode;
 
@@ -826,8 +877,9 @@ var EImageMode;
   EImageMode["FILL"] = "FILL";
 })(EImageMode = exports.EImageMode || (exports.EImageMode = {}));
 
-exports.DynaImage = __signature__(function (props) {
+var DynaImage = function DynaImage(props) {
   var className = props.className,
+      userStyle = props.style,
       src = props.src,
       _a = props.mode,
       mode = _a === void 0 ? EImageMode.FIT : _a,
@@ -840,20 +892,20 @@ exports.DynaImage = __signature__(function (props) {
       onLoad = props.onLoad,
       onError = props.onError;
 
-  var _d = react_1.useState(true),
+  var _d = (0, react_1.useState)(true),
       isLoading = _d[0],
       setIsLoading = _d[1];
 
-  var _e = react_1.useState(false),
+  var _e = (0, react_1.useState)(false),
       loadFailed = _e[0],
       setLoadFailed = _e[1];
 
-  react_1.useEffect(function () {
+  (0, react_1.useEffect)(function () {
     setIsLoading(true);
     setLoadFailed(false);
   }, [src]);
   var style = {
-    backgroundImage: "url(" + src + ")",
+    backgroundImage: "url(".concat(src, ")"),
     backgroundSize: function () {
       switch (mode) {
         case EImageMode.FIT:
@@ -880,7 +932,8 @@ exports.DynaImage = __signature__(function (props) {
   };
 
   return React.createElement(React.Fragment, null, React.createElement(Loading_1.Loading, {
-    className: cn_1.cn(styles.root, className),
+    className: (0, cn_1.cn)(styles.root, className),
+    style: userStyle,
     isLoading: showLoadingSpinner && isLoading
   }, React.createElement("div", {
     className: styles.imageContainer,
@@ -898,7 +951,9 @@ exports.DynaImage = __signature__(function (props) {
     onLoad: handleLoad,
     onError: handleError
   }));
-}, "useState{_d(true)}\nuseState{_e(false)}\nuseEffect{}");
+};
+
+exports.DynaImage = DynaImage;
 ;
 
 (function () {
@@ -908,7 +963,15 @@ exports.DynaImage = __signature__(function (props) {
     return;
   }
 
+  reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(__importDefault, "__importDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(styles, "styles", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(BrokenImage_1, "BrokenImage_1", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(EImageMode, "EImageMode", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(DynaImage, "DynaImage", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
 })();
 
 ;
@@ -941,28 +1004,76 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   return a;
 };
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function get() {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Loading = void 0;
 
-var React = __webpack_require__(/*! react */ "react");
+var React = __importStar(__webpack_require__(/*! react */ "react"));
 
 var core_1 = __webpack_require__(/*! @material-ui/core */ "@material-ui/core");
 
-var makeStyles_1 = __webpack_require__(/*! @material-ui/core/styles/makeStyles */ "@material-ui/core/styles/makeStyles");
+var makeStyles_1 = __importDefault(__webpack_require__(/*! @material-ui/core/styles/makeStyles */ "@material-ui/core/styles/makeStyles"));
 
-var createStyles_1 = __webpack_require__(/*! @material-ui/core/styles/createStyles */ "@material-ui/core/styles/createStyles");
+var createStyles_1 = __importDefault(__webpack_require__(/*! @material-ui/core/styles/createStyles */ "@material-ui/core/styles/createStyles"));
 
-exports.Loading = __signature__(function (props) {
+var Loading = function Loading(props) {
   var className = props.className,
+      style = props.style,
       isLoading = props.isLoading,
       _a = props.showCircularIcon,
       showCircularIcon = _a === void 0 ? true : _a,
       children = props.children;
   var classes = useStyles({});
   return React.createElement("div", {
-    className: [classes.root, className].filter(Boolean).join(' ')
+    className: [classes.root, className].filter(Boolean).join(' '),
+    style: style
   }, children, isLoading && React.createElement("div", {
     className: classes.loadingContainer
   }, showCircularIcon && React.createElement(core_1.CircularProgress, {
@@ -970,11 +1081,15 @@ exports.Loading = __signature__(function (props) {
     variant: "indeterminate",
     color: "primary"
   })));
-}, "useStyles{classes}", function () {
+};
+
+__signature__(Loading, "useStyles{classes}", function () {
   return [useStyles];
 });
-var useStyles = makeStyles_1["default"](function () {
-  return createStyles_1["default"]({
+
+exports.Loading = Loading;
+var useStyles = (0, makeStyles_1["default"])(function () {
+  return (0, createStyles_1["default"])({
     root: {
       position: 'relative'
     },
@@ -1002,6 +1117,14 @@ var useStyles = makeStyles_1["default"](function () {
     return;
   }
 
+  reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
+  reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
+  reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
+  reactHotLoader.register(__importDefault, "__importDefault", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
+  reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
+  reactHotLoader.register(makeStyles_1, "makeStyles_1", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
+  reactHotLoader.register(createStyles_1, "createStyles_1", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
+  reactHotLoader.register(Loading, "Loading", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
   reactHotLoader.register(useStyles, "useStyles", "/Users/dennisat/dev/dyna/dyna-image/src/Loading.tsx");
 })();
 
@@ -1024,7 +1147,12 @@ var useStyles = makeStyles_1["default"](function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
 
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
 
 var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
   return a;
@@ -1035,7 +1163,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cn = void 0;
 
-exports.cn = function () {
+var cn = function cn() {
   var classNames = [];
 
   for (var _i = 0; _i < arguments.length; _i++) {
@@ -1044,6 +1172,27 @@ exports.cn = function () {
 
   return classNames.filter(Boolean).join(' ');
 };
+
+exports.cn = cn;
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(cn, "cn", "/Users/dennisat/dev/dyna/dyna-image/src/cn.ts");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
