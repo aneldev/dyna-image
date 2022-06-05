@@ -4,6 +4,9 @@ import {DynaImage, EImageMode, IDynaImageProps} from "../../../../src";
 
 import * as styles from "./dynaImageShowcase.module.less";
 
+const smallImage = 'https://i.gifer.com/8Gkn.gif';
+const largeImage = 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV';
+
 export const dynaImageShowcase: IShowcaseView = {
   slug: 'dyna-image',
   faIconName: 'circle-o-notch',
@@ -24,7 +27,7 @@ export const dynaImageShowcase: IShowcaseView = {
       slug: 'actual-small',
       title: 'Actual, Small Image',
       props: {
-        src: 'https://i.gifer.com/8Gkn.gif',
+        src: smallImage,
         mode: EImageMode.ACTUAL,
         showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
@@ -35,7 +38,7 @@ export const dynaImageShowcase: IShowcaseView = {
       slug: 'fit-small',
       title: 'Fit, Small Image',
       props: {
-        src: 'https://i.gifer.com/8Gkn.gif',
+        src: smallImage,
         mode: EImageMode.FIT,
         showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
@@ -46,7 +49,7 @@ export const dynaImageShowcase: IShowcaseView = {
       slug: 'fill-small',
       title: '  let wrapper;\n, Small Image',
       props: {
-        src: 'https://i.gifer.com/8Gkn.gif',
+        src: smallImage,
         mode: EImageMode.FILL,
         showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
@@ -57,7 +60,7 @@ export const dynaImageShowcase: IShowcaseView = {
       slug: 'actual-big',
       title: 'Actual, Big Image',
       props: {
-        src: 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV',
+        src: largeImage,
         mode: EImageMode.ACTUAL,
         showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
@@ -68,7 +71,7 @@ export const dynaImageShowcase: IShowcaseView = {
       slug: 'fit-big',
       title: 'Fit, Big Image',
       props: {
-        src: 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV',
+        src: largeImage,
         mode: EImageMode.FIT,
         showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
@@ -79,7 +82,7 @@ export const dynaImageShowcase: IShowcaseView = {
       slug: 'fill-big',
       title: 'Fill, Big Image',
       props: {
-        src: 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV',
+        src: largeImage,
         mode: EImageMode.FILL,
         showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
@@ -101,7 +104,7 @@ export const dynaImageShowcase: IShowcaseView = {
       slug: 'fill-big-with-content',
       title: 'Fill, Big Image with content red inset shadow',
       props: {
-        src: 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV',
+        src: largeImage,
         mode: EImageMode.FILL,
         content:
           <div
