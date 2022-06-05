@@ -5,9 +5,23 @@ Render image in Fit, Fill, or Actual mode.
 Create a `<div>` and inside the `<DynaImage>`. The `<DynaImage>` will occupy the full width and height of the parent `<div>`.
 It will render the image in Fit / Fill or Actual mode.
 
-- In Actual mode, the image as it is, in physical dimensions.
-- In Fit mode, the image will fit in the parent div, which means that we will have horizontal or vertical spaces.
-- In Fill mode, the image will cover the whole area of the parent div, which means that the image will be cropped vertically or horizontally. 
+# Modes
+
+The `EImageMode` would be:
+
+## ACTUAL
+
+In Actual mode, the image as it is, in physical dimensions.
+
+If the image is bigger than the given space, the image is centered cropped.
+
+## FIT
+
+In Fit mode, the image will fit in the parent div, which means that we will have horizontal or vertical empty spaces.
+
+## FILL
+
+In Fill mode, the image will cover the whole area of the parent div, which means that the image will be cropped vertically or horizontally. 
 
 # Examples
 
@@ -48,7 +62,7 @@ export interface IDynaImageProps {
   src: string;
   mode?: EImageMode;                // Default: EImageMode.FIT
   alt?: string;                     // For the image tag
-  content?: JSX.Element;
+  content?: JSX.Element;            // Content that will be places above the image
   showLoadingSpinner?: boolean;     // Default: false
   showBrokenImageOnFail?: boolean;  // Default: true
   onLoad?: () => void;
