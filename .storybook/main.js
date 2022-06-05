@@ -2,10 +2,14 @@
 
 module.exports = {
   stories: [
-    '../**/*.stories.@(ts|tsx)',
+    '../src/**/*.stories.@(ts|tsx)',
+    '../stories/**/*.stories.@(ts|tsx)',
   ],
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-controls',
-  ]
+  ],
+  typescript: {
+    reactDocgen: "none",
+  },
 }
