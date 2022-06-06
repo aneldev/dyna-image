@@ -1,23 +1,39 @@
 import * as React from "react";
 import {
-  CSSProperties, useEffect, useState,
+  CSSProperties,
+  useEffect,
+  useState,
+  useRef,
 } from "react";
 
-import {cn} from "./cn";
 import {Loading} from "./Loading";
+import {cropImage} from "./utils/cropDivBackgroundImage";
 
 import * as styles from "./DynaImage.module.less";
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
+import {cn} from "./utils/cn";
 
 export interface IDynaImageProps {
   className?: string;
   style?: React.CSSProperties;
+
   src: string;
+  srcResponsiveImage?: (breakpoint: 'mobile' | 'tablet' | 'laptop' | 'desktop' | 'wide') => string;
+
   mode?: EImageMode;                // Default: EImageMode.FIT
   alt?: string;
   content?: JSX.Element;
+
   showLoadingSpinner?: boolean;     // Default is false
   showBrokenImageOnFail?: boolean;  // Default is true
+
+  crop?: {
+    percentageX1: number;           // 0..100 position
+    percentageY1: number;           // 0..100 position
+    percentageX2: number;           // 0..100 position
+    percentageY2: number;           // 0..100 position
+  };
+
   onLoad?: () => void;
   onError?: (error: any) => void;
 }
@@ -38,10 +54,12 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     content,
     showLoadingSpinner = false,
     showBrokenImageOnFail = true,
+    crop,
     onLoad,
     onError,
   } = props;
 
+  const refDivWithBackgroundImage = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [loadFailed, setLoadFailed] = useState<boolean>(false);
 
@@ -65,6 +83,15 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
   };
 
   const handleLoad = (): void => {
+    if (crop && refDivWithBackgroundImage.current) {
+      cropImage(
+        refDivWithBackgroundImage.current,
+        crop.percentageX1,
+        crop.percentageY1,
+        crop.percentageX2,
+        crop.percentageY2,
+      );
+    }
     setIsLoading(false);
     onLoad && onLoad();
   };
@@ -83,7 +110,9 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
       >
         <div
           className={styles.imageContainer}
+          ref={refDivWithBackgroundImage}
           style={style}
+          hidden={!!crop && isLoading}
         >
           {showBrokenImageOnFail && !!loadFailed && (
             <div className={styles.loadFailedContainer}>
