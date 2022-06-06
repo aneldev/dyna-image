@@ -5,7 +5,7 @@ import {DynaImage, EImageMode, IDynaImageProps} from "../../../../src";
 import * as styles from "./dynaImageShowcase.module.less";
 
 const smallImage = 'https://i.gifer.com/8Gkn.gif';
-const largeImage = 'https://sample1.djaana.com/sites/sample1.djaana.com/files/styles/gallery_1920x1080/public/Eiffeltower2.jpg?itok=6s-vmxZV';
+const largeImage = 'https://media.istockphoto.com/photos/3d-text-of-demo-picture-id869939818';
 
 export const dynaImageShowcase: IShowcaseView = {
   slug: 'dyna-image',
@@ -74,6 +74,7 @@ export const dynaImageShowcase: IShowcaseView = {
         src: largeImage,
         mode: EImageMode.FIT,
         showLoadingSpinner: true,
+        redraw: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -85,6 +86,77 @@ export const dynaImageShowcase: IShowcaseView = {
         src: largeImage,
         mode: EImageMode.FILL,
         showLoadingSpinner: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'crop-fit-big',
+      title: 'Crop and Fit, Big Image',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        crop: {
+          percentageX1: 10,
+          percentageY1: 10,
+          percentageX2: 90,
+          percentageY2: 90,
+        },
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'mirror-horizontal',
+      title: 'Mirror horizontal',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        horizontalMirror: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'mirror-vertical',
+      title: 'Mirror vertical',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        verticalMirror: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'mirror-horizontal-vertical',
+      title: 'Mirror horizontal && vertical',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        horizontalMirror: true,
+        verticalMirror: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'black-and-white',
+      title: 'Black and white',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        blackAndWhite: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
