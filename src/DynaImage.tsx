@@ -18,7 +18,6 @@ export interface IDynaImageProps {
   style?: React.CSSProperties;
 
   src: string;
-  srcResponsiveImage?: (breakpoint: 'mobile' | 'tablet' | 'laptop' | 'desktop' | 'wide') => string;
 
   mode?: EImageMode;                // Default: EImageMode.FIT
   alt?: string;
