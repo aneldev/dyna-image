@@ -54,17 +54,33 @@ yarn start
 
 ```
 
-# Properties
+# All Properties
 
 ```
 export interface IDynaImageProps {
   className?: string;
+  style?: React.CSSProperties;      // Container's style
+  imgStyle?: React.CSSProperties;   // Image style (is div with background image)
+
   src: string;
+
   mode?: EImageMode;                // Default: EImageMode.FIT
-  alt?: string;                     // For the image tag
-  content?: JSX.Element;            // Content that will be places above the image
-  showLoadingSpinner?: boolean;     // Default: false
-  showBrokenImageOnFail?: boolean;  // Default: true
+  alt?: string;
+  content?: JSX.Element;
+
+  showLoadingSpinner?: boolean;     // Default is false
+  showBrokenImageOnFail?: boolean;  // Default is true
+
+  crop?: {
+    percentageX1: number;           // 0..100 position
+    percentageY1: number;           // 0..100 position
+    percentageX2: number;           // 0..100 position
+    percentageY2: number;           // 0..100 position
+  };
+  horizontalMirror?: boolean;
+  verticalMirror?: boolean;
+  blackAndWhite?: boolean;
+
   onLoad?: () => void;
   onError?: (error: any) => void;
 }

@@ -15,7 +15,8 @@ import {cn} from "./utils/cn";
 
 export interface IDynaImageProps {
   className?: string;
-  style?: React.CSSProperties;
+  style?: React.CSSProperties;      // Container's style
+  imgStyle?: React.CSSProperties;   // Image style (is div with background image)
 
   src: string;
   srcResponsiveImage?: (breakpoint: 'mobile' | 'tablet' | 'laptop' | 'desktop' | 'wide') => string;
@@ -51,6 +52,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
   const {
     className,
     style: userStyle,
+    imgStyle = {},
     src,
     mode = EImageMode.FIT,
     alt,
@@ -91,6 +93,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
       verticalMirror ? 'scaleY(-1)' : '',
     ].filter(Boolean).join(' '),
     filter: blackAndWhite ? 'grayscale(100%)' : undefined,
+    ...imgStyle,
   });
 
   const handleLoad = (): void => {
@@ -111,6 +114,8 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     setLoadFailed(true);
     onError && onError(e);
   };
+
+  console.debug('render', {props, style: getStyle()});
 
   return (
     <>
