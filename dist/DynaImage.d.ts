@@ -3,11 +3,21 @@ export interface IDynaImageProps {
     className?: string;
     style?: React.CSSProperties;
     src: string;
+    srcResponsiveImage?: (breakpoint: 'mobile' | 'tablet' | 'laptop' | 'desktop' | 'wide') => string;
     mode?: EImageMode;
     alt?: string;
     content?: JSX.Element;
     showLoadingSpinner?: boolean;
     showBrokenImageOnFail?: boolean;
+    crop?: {
+        percentageX1: number;
+        percentageY1: number;
+        percentageX2: number;
+        percentageY2: number;
+    };
+    horizontalMirror?: boolean;
+    verticalMirror?: boolean;
+    blackAndWhite?: boolean;
     onLoad?: () => void;
     onError?: (error: any) => void;
 }
