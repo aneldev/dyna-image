@@ -149,6 +149,19 @@ export const dynaImageShowcase: IShowcaseView = {
       } as IDynaImageProps,
     },
     {
+      slug: 'black-and-white',
+      title: 'Black and white',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        blackAndWhite: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
       slug: 'error-loading',
       title: 'Load error',
       props: {

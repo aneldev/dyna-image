@@ -35,6 +35,7 @@ export interface IDynaImageProps {
   };
   horizontalMirror?: boolean;
   verticalMirror?: boolean;
+  blackAndWhite?: boolean;
 
   onLoad?: () => void;
   onError?: (error: any) => void;
@@ -59,6 +60,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     crop,
     horizontalMirror,
     verticalMirror,
+    blackAndWhite,
     onLoad,
     onError,
   } = props;
@@ -88,6 +90,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
       horizontalMirror ? 'scaleX(-1)' : '',
       verticalMirror ? 'scaleY(-1)' : '',
     ].filter(Boolean).join(' '),
+    filter: blackAndWhite ? 'grayscale(100%)' : undefined,
   });
 
   const handleLoad = (): void => {
