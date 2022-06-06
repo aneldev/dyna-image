@@ -7,6 +7,7 @@ exports[`Home rendered with all possible props 1`] = `
     isLoading={false}
   >
     <div
+      key="{\\"className\\":\\"className\\",\\"src\\":\\"https://www.example.com/eifel.jpg\\",\\"mode\\":\\"FILL\\",\\"alt\\":\\"Profile photo\\"}"
       style={
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
@@ -34,6 +35,7 @@ exports[`Home rendered with minimum set of props 1`] = `
     isLoading={false}
   >
     <div
+      key="{\\"src\\":\\"https://www.example.com/eifel.jpg\\"}"
       style={
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
