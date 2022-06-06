@@ -33,6 +33,8 @@ export interface IDynaImageProps {
     percentageX2: number;           // 0..100 position
     percentageY2: number;           // 0..100 position
   };
+  horizontalMirror?: boolean;
+  verticalMirror?: boolean;
 
   onLoad?: () => void;
   onError?: (error: any) => void;
@@ -55,6 +57,8 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     showLoadingSpinner = false,
     showBrokenImageOnFail = true,
     crop,
+    horizontalMirror,
+    verticalMirror,
     onLoad,
     onError,
   } = props;
@@ -68,7 +72,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     setLoadFailed(false);
   }, [src]);
 
-  const style: CSSProperties = {
+  const getStyle = (): CSSProperties => ({
     backgroundImage: `url(${src})`,
     backgroundSize: (() => {
       switch (mode) {
@@ -80,7 +84,11 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
           return 'auto';
       }
     })(),
-  };
+    transform: [
+      horizontalMirror ? 'scaleX(-1)' : '',
+      verticalMirror ? 'scaleY(-1)' : '',
+    ].filter(Boolean).join(' '),
+  });
 
   const handleLoad = (): void => {
     if (crop && refDivWithBackgroundImage.current) {
@@ -111,8 +119,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
         <div
           className={styles.imageContainer}
           ref={refDivWithBackgroundImage}
-          style={style}
-          hidden={!!crop && isLoading}
+          style={getStyle()}
         >
           {showBrokenImageOnFail && !!loadFailed && (
             <div className={styles.loadFailedContainer}>

@@ -109,6 +109,46 @@ export const dynaImageShowcase: IShowcaseView = {
       } as IDynaImageProps,
     },
     {
+      slug: 'mirror-horizontal',
+      title: 'Mirror horizontal',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        horizontalMirror: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'mirror-vertical',
+      title: 'Mirror vertical',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        verticalMirror: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
+      slug: 'mirror-horizontal-vertical',
+      title: 'Mirror horizontal && vertical',
+      redraw: true,
+      props: {
+        src: largeImage,
+        mode: EImageMode.FIT,
+        showLoadingSpinner: true,
+        horizontalMirror: true,
+        verticalMirror: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaImageProps,
+    },
+    {
       slug: 'error-loading',
       title: 'Load error',
       props: {
