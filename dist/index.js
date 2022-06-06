@@ -1201,7 +1201,7 @@ Object.defineProperty(exports, "EImageMode", {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
- //@ts-nocheck
+ // @ts-nocheck
 
 var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
   return a;
@@ -1261,7 +1261,7 @@ exports.Canvas2Image = function () {
   function saveFile(strData, fileType, fileName) {
     if (fileName === void 0) {
       fileName = "name";
-    } // Document.location.href = strData;
+    } // Document location.href = strData;
 
 
     var saveLink = document.createElement("a"); // Download file name
