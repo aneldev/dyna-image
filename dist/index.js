@@ -911,25 +911,22 @@ var DynaImage = function DynaImage(props) {
     setIsLoading(true);
     setLoadFailed(false);
   }, [src]);
+  var style = {
+    backgroundImage: "url(".concat(src, ")"),
+    backgroundSize: function () {
+      switch (mode) {
+        case EImageMode.FIT:
+          return 'contain';
 
-  var getStyle = function getStyle() {
-    return {
-      backgroundImage: "url(".concat(src, ")"),
-      backgroundSize: function () {
-        switch (mode) {
-          case EImageMode.FIT:
-            return 'contain';
+        case EImageMode.FILL:
+          return 'cover';
 
-          case EImageMode.FILL:
-            return 'cover';
-
-          case EImageMode.ACTUAL:
-            return 'auto';
-        }
-      }(),
-      transform: [horizontalMirror ? 'scaleX(-1)' : '', verticalMirror ? 'scaleY(-1)' : ''].filter(Boolean).join(' '),
-      filter: blackAndWhite ? 'grayscale(100%)' : undefined
-    };
+        case EImageMode.ACTUAL:
+          return 'auto';
+      }
+    }(),
+    transform: [horizontalMirror ? 'scaleX(-1)' : '', verticalMirror ? 'scaleY(-1)' : ''].filter(Boolean).join(' '),
+    filter: blackAndWhite ? 'grayscale(100%)' : undefined
   };
 
   var handleLoad = function handleLoad() {
@@ -952,9 +949,10 @@ var DynaImage = function DynaImage(props) {
     style: userStyle,
     isLoading: showLoadingSpinner && isLoading
   }, React.createElement("div", {
+    key: JSON.stringify(props),
     className: styles.imageContainer,
     ref: refDivWithBackgroundImage,
-    style: getStyle()
+    style: style
   }, showBrokenImageOnFail && !!loadFailed && React.createElement("div", {
     className: styles.loadFailedContainer
   }, React.createElement(BrokenImage_1["default"], {
