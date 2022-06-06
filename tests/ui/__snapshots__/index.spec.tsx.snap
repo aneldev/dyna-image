@@ -11,6 +11,8 @@ exports[`Home rendered with all possible props 1`] = `
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
           "backgroundSize": "cover",
+          "filter": undefined,
+          "transform": "",
         }
       }
     />
@@ -36,6 +38,8 @@ exports[`Home rendered with minimum set of props 1`] = `
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
           "backgroundSize": "contain",
+          "filter": undefined,
+          "transform": "",
         }
       }
     />
