@@ -74,7 +74,6 @@ export const dynaImageShowcase: IShowcaseView = {
         src: largeImage,
         mode: EImageMode.FIT,
         showLoadingSpinner: true,
-        redraw: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaImageProps,
@@ -93,7 +92,6 @@ export const dynaImageShowcase: IShowcaseView = {
     {
       slug: 'crop-fit-big',
       title: 'Crop and Fit, Big Image',
-      redraw: true,
       props: {
         src: largeImage,
         mode: EImageMode.FIT,
@@ -111,7 +109,6 @@ export const dynaImageShowcase: IShowcaseView = {
     {
       slug: 'mirror-horizontal',
       title: 'Mirror horizontal',
-      redraw: true,
       props: {
         src: largeImage,
         mode: EImageMode.FIT,
@@ -124,7 +121,6 @@ export const dynaImageShowcase: IShowcaseView = {
     {
       slug: 'mirror-vertical',
       title: 'Mirror vertical',
-      redraw: true,
       props: {
         src: largeImage,
         mode: EImageMode.FIT,
@@ -137,7 +133,6 @@ export const dynaImageShowcase: IShowcaseView = {
     {
       slug: 'mirror-horizontal-vertical',
       title: 'Mirror horizontal && vertical',
-      redraw: true,
       props: {
         src: largeImage,
         mode: EImageMode.FIT,
@@ -151,7 +146,6 @@ export const dynaImageShowcase: IShowcaseView = {
     {
       slug: 'black-and-white',
       title: 'Black and white',
-      redraw: true,
       props: {
         src: largeImage,
         mode: EImageMode.FIT,
