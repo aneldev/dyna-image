@@ -861,13 +861,15 @@ var React = __importStar(__webpack_require__(/*! react */ "react"));
 
 var react_1 = __webpack_require__(/*! react */ "react");
 
-var cn_1 = __webpack_require__(/*! ./cn */ "./src/cn.ts");
-
 var Loading_1 = __webpack_require__(/*! ./Loading */ "./src/Loading.tsx");
+
+var cropDivBackgroundImage_1 = __webpack_require__(/*! ./utils/cropDivBackgroundImage */ "./src/utils/cropDivBackgroundImage.ts");
 
 var styles = __importStar(__webpack_require__(/*! ./DynaImage.module.less */ "./src/DynaImage.module.less"));
 
 var BrokenImage_1 = __importDefault(__webpack_require__(/*! @material-ui/icons/BrokenImage */ "@material-ui/icons/BrokenImage"));
+
+var cn_1 = __webpack_require__(/*! ./utils/cn */ "./src/utils/cn.ts");
 
 var EImageMode;
 
@@ -889,8 +891,13 @@ var DynaImage = function DynaImage(props) {
       showLoadingSpinner = _b === void 0 ? false : _b,
       _c = props.showBrokenImageOnFail,
       showBrokenImageOnFail = _c === void 0 ? true : _c,
+      crop = props.crop,
+      horizontalMirror = props.horizontalMirror,
+      verticalMirror = props.verticalMirror,
+      blackAndWhite = props.blackAndWhite,
       onLoad = props.onLoad,
       onError = props.onError;
+  var refDivWithBackgroundImage = (0, react_1.useRef)(null);
 
   var _d = (0, react_1.useState)(true),
       isLoading = _d[0],
@@ -917,10 +924,16 @@ var DynaImage = function DynaImage(props) {
         case EImageMode.ACTUAL:
           return 'auto';
       }
-    }()
+    }(),
+    transform: [horizontalMirror ? 'scaleX(-1)' : '', verticalMirror ? 'scaleY(-1)' : ''].filter(Boolean).join(' '),
+    filter: blackAndWhite ? 'grayscale(100%)' : undefined
   };
 
   var handleLoad = function handleLoad() {
+    if (crop && refDivWithBackgroundImage.current) {
+      (0, cropDivBackgroundImage_1.cropImage)(refDivWithBackgroundImage.current, crop.percentageX1, crop.percentageY1, crop.percentageX2, crop.percentageY2);
+    }
+
     setIsLoading(false);
     onLoad && onLoad();
   };
@@ -936,7 +949,9 @@ var DynaImage = function DynaImage(props) {
     style: userStyle,
     isLoading: showLoadingSpinner && isLoading
   }, React.createElement("div", {
+    key: JSON.stringify(props),
     className: styles.imageContainer,
+    ref: refDivWithBackgroundImage,
     style: style
   }, showBrokenImageOnFail && !!loadFailed && React.createElement("div", {
     className: styles.loadFailedContainer
@@ -1138,10 +1153,345 @@ var useStyles = (0, makeStyles_1["default"])(function () {
 
 /***/ }),
 
-/***/ "./src/cn.ts":
-/*!*******************!*\
-  !*** ./src/cn.ts ***!
-  \*******************/
+/***/ "./src/index.tsx":
+/*!***********************!*\
+  !*** ./src/index.tsx ***!
+  \***********************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EImageMode = exports.DynaImage = void 0;
+
+var DynaImage_1 = __webpack_require__(/*! ./DynaImage */ "./src/DynaImage.tsx");
+
+Object.defineProperty(exports, "DynaImage", {
+  enumerable: true,
+  get: function get() {
+    return DynaImage_1.DynaImage;
+  }
+});
+Object.defineProperty(exports, "EImageMode", {
+  enumerable: true,
+  get: function get() {
+    return DynaImage_1.EImageMode;
+  }
+});
+
+/***/ }),
+
+/***/ "./src/utils/Canvas2Image.ts":
+/*!***********************************!*\
+  !*** ./src/utils/Canvas2Image.ts ***!
+  \***********************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+ // @ts-nocheck
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Canvas2Image = void 0;
+/**
+ * Covert canvas to image
+ * and save the image file
+ * Credits: https://www.npmjs.com/package/canvas-to-image
+ */
+
+exports.Canvas2Image = function () {
+  // Check if support sth.
+  var $support = function () {
+    var canvas = document.createElement("canvas"),
+        ctx = canvas.getContext("2d");
+    return {
+      canvas: !!ctx,
+      imageData: !!ctx.getImageData,
+      dataURL: !!canvas.toDataURL,
+      btoa: !!window.btoa
+    };
+  }();
+
+  var downloadMime = "image/octet-stream";
+
+  function scaleCanvas(canvas, width, height) {
+    var w = canvas.width,
+        h = canvas.height;
+
+    if (width === undefined) {
+      width = w;
+    }
+
+    if (height === undefined) {
+      height = h;
+    }
+
+    var retCanvas = document.createElement("canvas");
+    var retCtx = retCanvas.getContext("2d");
+    retCanvas.width = width;
+    retCanvas.height = height;
+    retCtx.drawImage(canvas, 0, 0, w, h, 0, 0, width, height);
+    return retCanvas;
+  }
+
+  function getDataURL(canvas, type, width, height) {
+    canvas = scaleCanvas(canvas, width, height);
+    return canvas.toDataURL(type);
+  } // Save file to local with file name and file type
+
+
+  function saveFile(strData, fileType, fileName) {
+    if (fileName === void 0) {
+      fileName = "name";
+    } // Document location.href = strData;
+
+
+    var saveLink = document.createElement("a"); // Download file name
+
+    saveLink.download = fileName + "." + fileType; // Download file data
+
+    saveLink.href = strData; // Start download
+
+    saveLink.click();
+  }
+
+  function genImage(strData) {
+    var img = document.createElement("img");
+    img.src = strData;
+    return img;
+  }
+
+  function fixType(type) {
+    type = type.toLowerCase().replace(/jpg/i, "jpeg");
+    var r = type.match(/png|jpeg|bmp|gif/)[0];
+    return "image/" + r;
+  }
+
+  function encodeData(data) {
+    if (!window.btoa) {
+      // eslint-disable-next-line no-throw-literal
+      throw "btoa undefined";
+    }
+
+    var str = "";
+
+    if (typeof data == "string") {
+      str = data;
+    } else {
+      for (var i = 0; i < data.length; i++) {
+        str += String.fromCharCode(data[i]);
+      }
+    }
+
+    return btoa(str);
+  }
+
+  function getImageData(canvas) {
+    var w = canvas.width,
+        h = canvas.height;
+    return canvas.getContext("2d").getImageData(0, 0, w, h);
+  }
+
+  function makeURI(strData, type) {
+    return "data:" + type + ";base64," + strData;
+  }
+  /**
+   * Create bitmap image
+   * 按照规则生成图片响应头和响应体
+   */
+
+
+  var genBitmapImage = function genBitmapImage(oData) {
+    //
+    // BITMAPFILEHEADER: http://msdn.microsoft.com/en-us/library/windows/desktop/dd183374(v=vs.85).aspx
+    // BITMAPINFOHEADER: http://msdn.microsoft.com/en-us/library/dd183376.aspx
+    //
+    var biWidth = oData.width;
+    var biHeight = oData.height;
+    var biSizeImage = biWidth * biHeight * 3;
+    var bfSize = biSizeImage + 54; // Total header size = 54 bytes
+    //
+    //  Typedef struct tagBITMAPFILEHEADER {
+    //  	WORD bfType;
+    //  	DWORD bfSize;
+    //  	WORD bfReserved1;
+    //  	WORD bfReserved2;
+    //  	DWORD bfOffBits;
+    //  } BITMAPFILEHEADER;
+    //
+
+    var BITMAPFILEHEADER = [// WORD bfType -- The file type signature; must be "BM"
+    0x42, 0x4d, // DWORD bfSize -- The size, in bytes, of the bitmap file
+    bfSize & 0xff, bfSize >> 8 & 0xff, bfSize >> 16 & 0xff, bfSize >> 24 & 0xff, // WORD bfReserved1 -- Reserved; must be zero
+    0, 0, // WORD bfReserved2 -- Reserved; must be zero
+    0, 0, // DWORD bfOffBits -- The offset, in bytes, from the beginning of the BITMAPFILEHEADER structure to the bitmap bits.
+    54, 0, 0, 0]; //
+    //  Typedef struct tagBITMAPINFOHEADER {
+    //  	DWORD biSize;
+    //  	LONG  biWidth;
+    //  	LONG  biHeight;
+    //  	WORD  biPlanes;
+    //  	WORD  biBitCount;
+    //  	DWORD biCompression;
+    //  	DWORD biSizeImage;
+    //  	LONG  biXPelsPerMeter;
+    //  	LONG  biYPelsPerMeter;
+    //  	DWORD biClrUsed;
+    //  	DWORD biClrImportant;
+    //  } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
+    //
+
+    var BITMAPINFOHEADER = [// DWORD biSize -- The number of bytes required by the structure
+    40, 0, 0, 0, // LONG biWidth -- The width of the bitmap, in pixels
+    biWidth & 0xff, biWidth >> 8 & 0xff, biWidth >> 16 & 0xff, biWidth >> 24 & 0xff, // LONG biHeight -- The height of the bitmap, in pixels
+    biHeight & 0xff, biHeight >> 8 & 0xff, biHeight >> 16 & 0xff, biHeight >> 24 & 0xff, // WORD biPlanes -- The number of planes for the target device. This value must be set to 1
+    1, 0, // WORD biBitCount -- The number of bits-per-pixel, 24 bits-per-pixel -- the bitmap
+    // Has a maximum of 2^24 colors (16777216, Truecolor)
+    24, 0, // DWORD biCompression -- The type of compression, BI_RGB (code 0) -- uncompressed
+    0, 0, 0, 0, // DWORD biSizeImage -- The size, in bytes, of the image. This may be set to zero for BI_RGB bitmaps
+    biSizeImage & 0xff, biSizeImage >> 8 & 0xff, biSizeImage >> 16 & 0xff, biSizeImage >> 24 & 0xff, // LONG biXPelsPerMeter, unused
+    0, 0, 0, 0, // LONG biYPelsPerMeter, unused
+    0, 0, 0, 0, // DWORD biClrUsed, the number of color indexes of palette, unused
+    0, 0, 0, 0, // DWORD biClrImportant, unused
+    0, 0, 0, 0];
+    var iPadding = (4 - biWidth * 3 % 4) % 4;
+    var aImgData = oData.data;
+    var strPixelData = "";
+    var biWidth4 = biWidth << 2;
+    var y = biHeight;
+    var fromCharCode = String.fromCharCode;
+
+    do {
+      var iOffsetY = biWidth4 * (y - 1);
+      var strPixelRow = "";
+
+      for (var x = 0; x < biWidth; x++) {
+        var iOffsetX = x << 2;
+        strPixelRow += fromCharCode(aImgData[iOffsetY + iOffsetX + 2]) + fromCharCode(aImgData[iOffsetY + iOffsetX + 1]) + fromCharCode(aImgData[iOffsetY + iOffsetX]);
+      }
+
+      for (var c = 0; c < iPadding; c++) {
+        strPixelRow += String.fromCharCode(0);
+      }
+
+      strPixelData += strPixelRow;
+    } while (--y);
+
+    return encodeData(BITMAPFILEHEADER.concat(BITMAPINFOHEADER)) + encodeData(strPixelData);
+  };
+  /**
+   * SaveAsImage
+   * @param canvas canvasElement
+   * @param width {String} image type
+   * @param height {Number} [optional] png width
+   * @param type {string} [optional] png height
+   * @param fileName {String} image name
+   */
+
+
+  var saveAsImage = function saveAsImage(canvas, width, height, type, fileName) {
+    // Save file type
+    var fileType = type;
+
+    if ($support.canvas && $support.dataURL) {
+      if (typeof canvas == "string") {
+        canvas = document.getElementById(canvas);
+      }
+
+      if (type === undefined) {
+        type = "png";
+      }
+
+      type = fixType(type);
+
+      if (/bmp/.test(type)) {
+        var data = getImageData(scaleCanvas(canvas, width, height));
+        var strData = genBitmapImage(data); // Use new parameter: fileType
+
+        saveFile(makeURI(strData, downloadMime), fileType, fileName);
+      } else {
+        var strData = getDataURL(canvas, type, width, height); // Use new parameter: fileType
+
+        saveFile(strData.replace(type, downloadMime), fileType, fileName);
+      }
+    }
+  };
+
+  var convertToImage = function convertToImage(canvas, width, height, type) {
+    if ($support.canvas && $support.dataURL) {
+      if (typeof canvas == "string") {
+        canvas = document.getElementById(canvas);
+      }
+
+      if (type === undefined) {
+        type = "png";
+      }
+
+      type = fixType(type);
+
+      if (/bmp/.test(type)) {
+        var data = getImageData(scaleCanvas(canvas, width, height));
+        var strData = genBitmapImage(data);
+        return genImage(makeURI(strData, "image/bmp"));
+      } else {
+        var strData = getDataURL(canvas, type, width, height);
+        return genImage(strData);
+      }
+    }
+  };
+
+  return {
+    saveAsImage: saveAsImage,
+    saveAsPNG: function saveAsPNG(canvas, width, height, fileName) {
+      return saveAsImage(canvas, width, height, "png", fileName);
+    },
+    saveAsJPEG: function saveAsJPEG(canvas, width, height, fileName) {
+      return saveAsImage(canvas, width, height, "jpeg", fileName);
+    },
+    saveAsGIF: function saveAsGIF(canvas, width, height, fileName) {
+      return saveAsImage(canvas, width, height, "gif", fileName);
+    },
+    saveAsBMP: function saveAsBMP(canvas, width, height, fileName) {
+      return saveAsImage(canvas, width, height, "bmp", fileName);
+    },
+    convertToImage: convertToImage,
+    convertToPNG: function convertToPNG(canvas, width, height) {
+      return convertToImage(canvas, width, height, "png");
+    },
+    convertToJPEG: function convertToJPEG(canvas, width, height) {
+      return convertToImage(canvas, width, height, "jpeg");
+    },
+    convertToGIF: function convertToGIF(canvas, width, height) {
+      return convertToImage(canvas, width, height, "gif");
+    },
+    convertToBMP: function convertToBMP(canvas, width, height) {
+      return convertToImage(canvas, width, height, "bmp");
+    }
+  };
+}();
+
+/***/ }),
+
+/***/ "./src/utils/cn.ts":
+/*!*************************!*\
+  !*** ./src/utils/cn.ts ***!
+  \*************************/
 /*! no static exports found */
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1183,7 +1533,7 @@ exports.cn = cn;
     return;
   }
 
-  reactHotLoader.register(cn, "cn", "/Users/dennisat/dev/dyna/dyna-image/src/cn.ts");
+  reactHotLoader.register(cn, "cn", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cn.ts");
 })();
 
 ;
@@ -1192,20 +1542,25 @@ exports.cn = cn;
   var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/index.tsx":
-/*!***********************!*\
-  !*** ./src/index.tsx ***!
-  \***********************/
+/***/ "./src/utils/cropDivBackgroundImage.ts":
+/*!*********************************************!*\
+  !*** ./src/utils/cropDivBackgroundImage.ts ***!
+  \*********************************************/
 /*! no static exports found */
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
 
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
 
 var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
   return a;
@@ -1214,22 +1569,66 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.EImageMode = exports.DynaImage = void 0;
+exports.cropImage = void 0;
 
-var DynaImage_1 = __webpack_require__(/*! ./DynaImage */ "./src/DynaImage.tsx");
+var Canvas2Image_1 = __webpack_require__(/*! ./Canvas2Image */ "./src/utils/Canvas2Image.ts");
 
-Object.defineProperty(exports, "DynaImage", {
-  enumerable: true,
-  get: function get() {
-    return DynaImage_1.DynaImage;
+var cropImage = function cropImage(divWithBackgroundImage, percentageX1, percentageY1, percentageX2, percentageY2) {
+  var imageURL = divWithBackgroundImage.style.backgroundImage.split('"')[1];
+  var image = new Image();
+  image.src = imageURL;
+  image.setAttribute('crossorigin', 'anonymous');
+
+  image.onload = function () {
+    var x1 = getPxValue(percentageX1, image.width);
+    var x2 = getPxValue(percentageX2, image.width);
+    var y1 = getPxValue(percentageY1, image.height);
+    var y2 = getPxValue(percentageY2, image.height);
+    var width = x2 - x1;
+    var height = y2 - y1;
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext('2d');
+    ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(image, x1, // Copy from x
+    y1, // Copy from y
+    width, // Copy width
+    height, // Copy height
+    0, // Paste on x
+    0, // Paste on y
+    width, // Paste width
+    height);
+    var newImage = Canvas2Image_1.Canvas2Image.convertToPNG(canvas, canvas.width, canvas.height);
+    divWithBackgroundImage.style.backgroundImage = "url(" + (newImage === null || newImage === void 0 ? void 0 : newImage.src) + ")";
+  };
+};
+
+exports.cropImage = cropImage;
+
+var getPxValue = function getPxValue(percentage, size) {
+  return size * percentage / 100;
+};
+
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
   }
-});
-Object.defineProperty(exports, "EImageMode", {
-  enumerable: true,
-  get: function get() {
-    return DynaImage_1.EImageMode;
-  }
-});
+
+  reactHotLoader.register(cropImage, "cropImage", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
+  reactHotLoader.register(getPxValue, "getPxValue", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 

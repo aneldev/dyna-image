@@ -19,7 +19,6 @@ export interface IDynaImageProps {
   imgStyle?: React.CSSProperties;   // Image style (is div with background image)
 
   src: string;
-  srcResponsiveImage?: (breakpoint: 'mobile' | 'tablet' | 'laptop' | 'desktop' | 'wide') => string;
 
   mode?: EImageMode;                // Default: EImageMode.FIT
   alt?: string;
@@ -76,7 +75,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     setLoadFailed(false);
   }, [src]);
 
-  const getStyle = (): CSSProperties => ({
+  const style: CSSProperties = {
     backgroundImage: `url(${src})`,
     backgroundSize: (() => {
       switch (mode) {
@@ -94,7 +93,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     ].filter(Boolean).join(' '),
     filter: blackAndWhite ? 'grayscale(100%)' : undefined,
     ...imgStyle,
-  });
+  };
 
   const handleLoad = (): void => {
     if (crop && refDivWithBackgroundImage.current) {
@@ -115,8 +114,6 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     onError && onError(e);
   };
 
-  console.debug('render', {props, style: getStyle()});
-
   return (
     <>
       <Loading
@@ -125,9 +122,10 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
         isLoading={showLoadingSpinner && isLoading}
       >
         <div
+          key={JSON.stringify(props)}
           className={styles.imageContainer}
           ref={refDivWithBackgroundImage}
-          style={getStyle()}
+          style={style}
         >
           {showBrokenImageOnFail && !!loadFailed && (
             <div className={styles.loadFailedContainer}>

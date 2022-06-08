@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 
 /**
  * Covert canvas to image
@@ -47,7 +47,7 @@ export const Canvas2Image = (function () {
 
   // Save file to local with file name and file type
   function saveFile(strData, fileType, fileName = "name") {
-    // Document.location.href = strData;
+    // Document location.href = strData;
     const saveLink = document.createElement("a");
     // Download file name
     saveLink.download = fileName + "." + fileType;

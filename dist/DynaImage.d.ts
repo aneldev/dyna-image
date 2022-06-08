@@ -8,6 +8,15 @@ export interface IDynaImageProps {
     content?: JSX.Element;
     showLoadingSpinner?: boolean;
     showBrokenImageOnFail?: boolean;
+    crop?: {
+        percentageX1: number;
+        percentageY1: number;
+        percentageX2: number;
+        percentageY2: number;
+    };
+    horizontalMirror?: boolean;
+    verticalMirror?: boolean;
+    blackAndWhite?: boolean;
     onLoad?: () => void;
     onError?: (error: any) => void;
 }

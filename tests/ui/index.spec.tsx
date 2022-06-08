@@ -11,10 +11,7 @@ import {
 
 configure({adapter: new Adapter()});
 
-configure({adapter: new Adapter()});
-
 describe('Home', () => {
-
   it('rendered with minimum set of props', () => {
     const wrapper = enzyme.shallow(
       (
@@ -41,5 +38,4 @@ describe('Home', () => {
     );
     expect(wrapper).toMatchSnapshot();
   });
-
 });
