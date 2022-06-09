@@ -3,3 +3,8 @@ export {
   IDynaImageProps,
   EImageMode,
 } from "./DynaImage";
+
+export {
+  DynaResponsiveImage,
+  IDynaResponsiveImageProps,
+} from "./DynaResponsiveImage";

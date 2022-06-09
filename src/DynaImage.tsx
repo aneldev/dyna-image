@@ -7,7 +7,7 @@ import {
 } from "react";
 
 import {Loading} from "./Loading";
-import {cropImage} from "./utils/cropDivBackgroundImage";
+import {cropDivBackgroundImage} from "./utils/cropDivBackgroundImage";
 
 import * as styles from "./DynaImage.module.less";
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
@@ -97,7 +97,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
 
   const handleLoad = (): void => {
     if (crop && refDivWithBackgroundImage.current) {
-      cropImage(
+      cropDivBackgroundImage(
         refDivWithBackgroundImage.current,
         crop.percentageX1,
         crop.percentageY1,
