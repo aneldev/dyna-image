@@ -25,7 +25,7 @@ export const cropDivBackgroundImage = async (
 ) => {
   try {
     const imageURL = divWithBackgroundImage.style.backgroundImage.split('"')[1];
-    const croppedImage = await crop(
+    const croppedImage = await cropImageByUrl(
       imageURL,
       percentageX1,
       percentageY1,
@@ -39,7 +39,7 @@ export const cropDivBackgroundImage = async (
   }
 };
 
-const crop = (
+const cropImageByUrl = (
   imageURL: string,
   percentageX1: number,
   percentageY1: number,
