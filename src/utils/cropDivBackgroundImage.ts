@@ -8,7 +8,6 @@ export const cropImage = async (
   percentageY2: number,
 ) => {
   try {
-    debugger;
     img.src = "url(" + cropImageCore(img, percentageX1, percentageY1, percentageX2, percentageY2) + ")";
   }
   catch (e) {
