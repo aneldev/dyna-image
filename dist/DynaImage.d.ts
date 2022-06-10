@@ -2,6 +2,7 @@ import * as React from "react";
 export interface IDynaImageProps {
     className?: string;
     style?: React.CSSProperties;
+    imgStyle?: React.CSSProperties;
     src: string;
     mode?: EImageMode;
     alt?: string;
@@ -21,7 +22,6 @@ export interface IDynaImageProps {
     onError?: (error: any) => void;
 }
 export declare enum EImageMode {
-    ACTUAL = "ACTUAL",
     FIT = "FIT",
     FILL = "FILL"
 }
