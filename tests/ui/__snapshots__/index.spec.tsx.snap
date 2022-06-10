@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home rendered with all possible props 1`] = `
+exports[`Home render DynaImage 1`] = `
 <Fragment>
   <Loading
     className="className"
@@ -26,6 +26,46 @@ exports[`Home rendered with all possible props 1`] = `
     src="https://www.example.com/eifel.jpg"
   />
 </Fragment>
+`;
+
+exports[`Home render DynaResponsiveImage 1`] = `
+<div
+  className="className"
+  style={
+    Object {
+      "overflow": "hidden",
+      "position": "relative",
+    }
+  }
+>
+  <picture>
+    <img
+      alt="Profile photo"
+      onError={[Function]}
+      onLoad={[Function]}
+      src="https://www.example.com/eifel.jpg"
+      style={
+        Object {
+          "filter": undefined,
+          "transform": "",
+          "transformOrigin": undefined,
+        }
+      }
+      width="100%"
+    />
+  </picture>
+  <div
+    style={
+      Object {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  />
+</div>
 `;
 
 exports[`Home rendered with minimum set of props 1`] = `
