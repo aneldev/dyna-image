@@ -3,7 +3,6 @@ import {IShowcaseView} from "dyna-showcase";
 
 import {
   DynaResponsiveImage,
-  EImageMode,
   IDynaResponsiveImageProps,
 } from "../../../../src";
 
@@ -60,7 +59,20 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
       title: 'Responsive',
       props: {
         srcSet: demoImages,
-        mode: EImageMode.ACTUAL,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaResponsiveImageProps,
+    },
+    {
+      slug: 'simple-fewer',
+      title: 'Responsive, fewer images',
+      props: {
+        srcSet: {
+          ...demoImages,
+          W192: undefined,
+          W768: undefined,
+          W2048: undefined,
+        },
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaResponsiveImageProps,
@@ -70,7 +82,6 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
       title: 'With overlay container',
       props: {
         srcSet: demoImages,
-        mode: EImageMode.ACTUAL,
         content: (
           <div
             style={{
@@ -88,7 +99,6 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
       title: 'Flipped and B/W',
       props: {
         srcSet: demoImages,
-        mode: EImageMode.ACTUAL,
         horizontalMirror: true,
         verticalMirror: true,
         blackAndWhite: true,
@@ -102,7 +112,6 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
       description: 'Bottom right corner',
       props: {
         srcSet: demoImages,
-        mode: EImageMode.ACTUAL,
         zoom: {
           percentageX: 100,
           percentageY: 100,

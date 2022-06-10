@@ -42,7 +42,6 @@ export interface IDynaImageProps {
 }
 
 export enum EImageMode {
-  ACTUAL = "ACTUAL",
   FIT = "FIT",
   FILL = "FILL",
 }
@@ -83,8 +82,6 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
           return 'contain';
         case EImageMode.FILL:
           return 'cover';
-        case EImageMode.ACTUAL:
-          return 'auto';
       }
     })(),
     transform: [
