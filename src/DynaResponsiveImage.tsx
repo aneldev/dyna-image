@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  CSSProperties,
-  useRef,
-} from "react";
-
-import {cropImage} from "./utils/cropDivBackgroundImage";
+import {useRef} from "react";
 
 export interface IDynaResponsiveImageProps {
   className?: string;
@@ -20,19 +15,19 @@ export interface IDynaResponsiveImageProps {
     W4096: string;
   };
 
-  mode?: EImageMode;                // Default: EImageMode.FIT
   alt?: string;
   content?: JSX.Element;
 
-  crop?: {
-    percentageX1: number;           // 0..100 position
-    percentageY1: number;           // 0..100 position
-    percentageX2: number;           // 0..100 position
-    percentageY2: number;           // 0..100 position
-  };
   horizontalMirror?: boolean;
   verticalMirror?: boolean;
+
   blackAndWhite?: boolean;
+
+  zoom?: {
+    percentageX: number;  // Default is 50%. Examples: 0& 20% 100%
+    percentageY: number;  // Default is 50%. Examples: 0& 20% 100%
+    zoom: number;         // Default is 1. 1 1.2 1.5
+  };
 
   onLoad?: () => void;
   onError?: (error: any) => void;
@@ -44,66 +39,45 @@ export enum EImageMode {
   FILL = "FILL",
 }
 
-let done = false;
-
 export const DynaResponsiveImage = (props: IDynaResponsiveImageProps): JSX.Element => {
   const {
     className,
     imgStyle = {},
     srcSet,
-    mode = EImageMode.FIT,
     alt,
     content,
-    crop,
     horizontalMirror,
     verticalMirror,
     blackAndWhite,
+    zoom,
     onLoad,
     onError,
   } = props;
-  mode;
 
   const refImage = useRef<HTMLImageElement>(null);
 
-  const style: CSSProperties = {
-    transform: [
-      horizontalMirror ? 'scaleX(-1)' : '',
-      verticalMirror ? 'scaleY(-1)' : '',
-    ].filter(Boolean).join(' '),
-    filter: blackAndWhite ? 'grayscale(100%)' : undefined,
-    ...imgStyle,
-  };
-
-  const handleLoad = (): void => {
-    console.debug('LOADED');
-    if (crop && refImage.current) {
-      if (done) return;
-      done = true;
-      console.debug('Cropping');
-      cropImage(
-        refImage.current,
-        crop.percentageX1,
-        crop.percentageY1,
-        crop.percentageX2,
-        crop.percentageY2,
-      );
-    }
-    onLoad && onLoad();
-  };
-  const handleError = (e: any): void => {
-    onError && onError(e);
-  };
+  if (zoom && (verticalMirror || horizontalMirror)) {
+    return (
+      <div>
+        DynaImage: <code>zoom</code> cannot work with <code>horizontalMirror</code> or <code>verticalMirror</code>.
+      </div>
+    );
+  }
 
   return (
     <div
       className={className}
-      style={{position: 'relative'}}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
       <picture>
         {Object.keys(srcSet)
-          .filter(set=>set !== 'main')
-          .map(set=>(
+          .filter(set => set !== 'main')
+          .map((set, index) => (
             <source
+              key={index}
               media={`(max-width: ${set.substring(1)}px)`}
               srcSet={`${srcSet[set]} ${set.substring(1)}w`}
               sizes="100vw"
@@ -115,9 +89,18 @@ export const DynaResponsiveImage = (props: IDynaResponsiveImageProps): JSX.Eleme
           ref={refImage}
           alt={alt}
           src={srcSet.main}
-          style={style}
-          onLoad={handleLoad}
-          onError={handleError}
+          style={{
+            transform: [
+              horizontalMirror ? 'scaleX(-1)' : '',
+              verticalMirror ? 'scaleY(-1)' : '',
+              zoom ? `scale(${zoom.zoom})` : '',
+            ].filter(Boolean).join(' '),
+            transformOrigin: zoom ? `${zoom.percentageX}% ${zoom.percentageY}%` : undefined,
+            filter: blackAndWhite ? 'grayscale(100%)' : undefined,
+            ...imgStyle,
+          }}
+          onLoad={onLoad}
+          onError={onError}
         />
       </picture>
       <div

@@ -55,7 +55,6 @@ const crop = (
       resolve(cropImageCore(image, percentageX1, percentageY1, percentageX2, percentageY2));
     });
     image.onerror = reject;
-
   });
 };
 

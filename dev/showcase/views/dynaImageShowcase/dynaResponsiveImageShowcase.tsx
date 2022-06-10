@@ -53,7 +53,6 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
   ),
   wrapperStyle: {
     width: '100%',
-    height: '100%',
   },
   props: [
     {
@@ -62,7 +61,6 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
       props: {
         srcSet: demoImages,
         mode: EImageMode.ACTUAL,
-        showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
       } as IDynaResponsiveImageProps,
@@ -73,7 +71,6 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
       props: {
         srcSet: demoImages,
         mode: EImageMode.ACTUAL,
-        showLoadingSpinner: true,
         content: (
           <div
             style={{
@@ -87,17 +84,29 @@ export const dynaResponsiveImageShowcase: IShowcaseView = {
       } as IDynaResponsiveImageProps,
     },
     {
-      slug: 'cropped',
-      title: 'Cropped',
+      slug: 'flipped-bw',
+      title: 'Flipped and B/W',
       props: {
         srcSet: demoImages,
         mode: EImageMode.ACTUAL,
-        showLoadingSpinner: true,
-        crop: {
-          percentageX1: 10,
-          percentageY1: 10,
-          percentageX2: 90,
-          percentageY2: 90,
+        horizontalMirror: true,
+        verticalMirror: true,
+        blackAndWhite: true,
+        onLoad: () => console.log('Image loaded'),
+        onError: (error) => console.error('Image load error', error),
+      } as IDynaResponsiveImageProps,
+    },
+    {
+      slug: 'zoomed',
+      title: 'Zoomed',
+      description: 'Bottom right corner',
+      props: {
+        srcSet: demoImages,
+        mode: EImageMode.ACTUAL,
+        zoom: {
+          percentageX: 100,
+          percentageY: 100,
+          zoom: 1.7,
         },
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),
