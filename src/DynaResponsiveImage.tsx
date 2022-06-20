@@ -33,7 +33,7 @@ export interface ISrcSet {
   W1024?: string;
   W2048?: string;
   W4096?: string;
-};
+}
 
 export const DynaResponsiveImage = (props: IDynaResponsiveImageProps): JSX.Element => {
   const {
