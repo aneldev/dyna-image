@@ -7,4 +7,5 @@ export {
 export {
   DynaResponsiveImage,
   IDynaResponsiveImageProps,
+  ISrcSet,
 } from "./DynaResponsiveImage";

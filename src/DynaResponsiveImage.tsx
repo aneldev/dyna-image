@@ -5,15 +5,7 @@ export interface IDynaResponsiveImageProps {
   className?: string;
   imgStyle?: React.CSSProperties;   // Image style (is div with background image)
 
-  srcSet: {
-    main: string;         // Use it as default image
-    W192?: string;
-    W384?: string;
-    W768?: string;
-    W1024?: string;
-    W2048?: string;
-    W4096?: string;
-  };
+  srcSet: ISrcSet;
 
   alt?: string;
   content?: JSX.Element;
@@ -32,6 +24,16 @@ export interface IDynaResponsiveImageProps {
   onLoad?: () => void;
   onError?: (error: any) => void;
 }
+
+export interface ISrcSet {
+  main: string;         // Use it as default image
+  W192?: string;
+  W384?: string;
+  W768?: string;
+  W1024?: string;
+  W2048?: string;
+  W4096?: string;
+};
 
 export const DynaResponsiveImage = (props: IDynaResponsiveImageProps): JSX.Element => {
   const {
