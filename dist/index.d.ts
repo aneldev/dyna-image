@@ -1,2 +1,2 @@
 export { DynaImage, IDynaImageProps, EImageMode, } from "./DynaImage";
-export { DynaResponsiveImage, IDynaResponsiveImageProps, } from "./DynaResponsiveImage";
+export { DynaResponsiveImage, IDynaResponsiveImageProps, ISrcSet, } from "./DynaResponsiveImage";
