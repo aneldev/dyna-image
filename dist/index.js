@@ -806,6 +806,22 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   return a;
 };
 
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -874,7 +890,6 @@ var cn_1 = __webpack_require__(/*! ./utils/cn */ "./src/utils/cn.ts");
 var EImageMode;
 
 (function (EImageMode) {
-  EImageMode["ACTUAL"] = "ACTUAL";
   EImageMode["FIT"] = "FIT";
   EImageMode["FILL"] = "FILL";
 })(EImageMode = exports.EImageMode || (exports.EImageMode = {}));
@@ -882,15 +897,17 @@ var EImageMode;
 var DynaImage = function DynaImage(props) {
   var className = props.className,
       userStyle = props.style,
+      _a = props.imgStyle,
+      imgStyle = _a === void 0 ? {} : _a,
       src = props.src,
-      _a = props.mode,
-      mode = _a === void 0 ? EImageMode.FIT : _a,
+      _b = props.mode,
+      mode = _b === void 0 ? EImageMode.FIT : _b,
       alt = props.alt,
       content = props.content,
-      _b = props.showLoadingSpinner,
-      showLoadingSpinner = _b === void 0 ? false : _b,
-      _c = props.showBrokenImageOnFail,
-      showBrokenImageOnFail = _c === void 0 ? true : _c,
+      _c = props.showLoadingSpinner,
+      showLoadingSpinner = _c === void 0 ? false : _c,
+      _d = props.showBrokenImageOnFail,
+      showBrokenImageOnFail = _d === void 0 ? true : _d,
       crop = props.crop,
       horizontalMirror = props.horizontalMirror,
       verticalMirror = props.verticalMirror,
@@ -899,19 +916,20 @@ var DynaImage = function DynaImage(props) {
       onError = props.onError;
   var refDivWithBackgroundImage = (0, react_1.useRef)(null);
 
-  var _d = (0, react_1.useState)(true),
-      isLoading = _d[0],
-      setIsLoading = _d[1];
+  var _e = (0, react_1.useState)(true),
+      isLoading = _e[0],
+      setIsLoading = _e[1];
 
-  var _e = (0, react_1.useState)(false),
-      loadFailed = _e[0],
-      setLoadFailed = _e[1];
+  var _f = (0, react_1.useState)(false),
+      loadFailed = _f[0],
+      setLoadFailed = _f[1];
 
   (0, react_1.useEffect)(function () {
     setIsLoading(true);
     setLoadFailed(false);
   }, [src]);
-  var style = {
+
+  var style = __assign({
     backgroundImage: "url(".concat(src, ")"),
     backgroundSize: function () {
       switch (mode) {
@@ -920,18 +938,15 @@ var DynaImage = function DynaImage(props) {
 
         case EImageMode.FILL:
           return 'cover';
-
-        case EImageMode.ACTUAL:
-          return 'auto';
       }
     }(),
     transform: [horizontalMirror ? 'scaleX(-1)' : '', verticalMirror ? 'scaleY(-1)' : ''].filter(Boolean).join(' '),
     filter: blackAndWhite ? 'grayscale(100%)' : undefined
-  };
+  }, imgStyle);
 
   var handleLoad = function handleLoad() {
     if (crop && refDivWithBackgroundImage.current) {
-      (0, cropDivBackgroundImage_1.cropImage)(refDivWithBackgroundImage.current, crop.percentageX1, crop.percentageY1, crop.percentageX2, crop.percentageY2);
+      (0, cropDivBackgroundImage_1.cropDivBackgroundImage)(refDivWithBackgroundImage.current, crop.percentageX1, crop.percentageY1, crop.percentageX2, crop.percentageY2);
     }
 
     setIsLoading(false);
@@ -978,6 +993,7 @@ exports.DynaImage = DynaImage;
     return;
   }
 
+  reactHotLoader.register(__assign, "__assign", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
@@ -987,6 +1003,176 @@ exports.DynaImage = DynaImage;
   reactHotLoader.register(BrokenImage_1, "BrokenImage_1", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(EImageMode, "EImageMode", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(DynaImage, "DynaImage", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/DynaResponsiveImage.tsx":
+/*!*************************************!*\
+  !*** ./src/DynaResponsiveImage.tsx ***!
+  \*************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function get() {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DynaResponsiveImage = void 0;
+
+var React = __importStar(__webpack_require__(/*! react */ "react"));
+
+var react_1 = __webpack_require__(/*! react */ "react");
+
+var DynaResponsiveImage = function DynaResponsiveImage(props) {
+  var className = props.className,
+      _a = props.imgStyle,
+      imgStyle = _a === void 0 ? {} : _a,
+      srcSet = props.srcSet,
+      alt = props.alt,
+      content = props.content,
+      horizontalMirror = props.horizontalMirror,
+      verticalMirror = props.verticalMirror,
+      blackAndWhite = props.blackAndWhite,
+      zoom = props.zoom,
+      onLoad = props.onLoad,
+      onError = props.onError;
+  var refImage = (0, react_1.useRef)(null);
+
+  if (zoom && (verticalMirror || horizontalMirror)) {
+    return React.createElement("div", null, "DynaImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
+  }
+
+  return React.createElement("div", {
+    className: className,
+    style: {
+      position: 'relative',
+      overflow: 'hidden'
+    }
+  }, React.createElement("picture", null, Object.keys(srcSet).filter(function (set) {
+    return set !== 'main' && !!srcSet[set];
+  }).map(function (set, index) {
+    return React.createElement("source", {
+      key: index,
+      media: "(max-width: ".concat(set.substring(1), "px)"),
+      srcSet: "".concat(srcSet[set], " ").concat(set.substring(1), "w"),
+      sizes: "100vw"
+    });
+  }), React.createElement("img", {
+    width: "100%",
+    ref: refImage,
+    alt: alt,
+    src: srcSet.main,
+    style: __assign({
+      transform: [horizontalMirror ? 'scaleX(-1)' : '', verticalMirror ? 'scaleY(-1)' : '', zoom ? "scale(".concat(zoom.zoom, ")") : ''].filter(Boolean).join(' '),
+      transformOrigin: zoom ? "".concat(zoom.percentageX, "% ").concat(zoom.percentageY, "%") : undefined,
+      filter: blackAndWhite ? 'grayscale(100%)' : undefined
+    }, imgStyle),
+    onLoad: onLoad,
+    onError: onError
+  })), React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0
+    }
+  }, content));
+};
+
+exports.DynaResponsiveImage = DynaResponsiveImage;
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(__assign, "__assign", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(DynaResponsiveImage, "DynaResponsiveImage", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
 })();
 
 ;
@@ -1171,7 +1357,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.EImageMode = exports.DynaImage = void 0;
+exports.DynaResponsiveImage = exports.EImageMode = exports.DynaImage = void 0;
 
 var DynaImage_1 = __webpack_require__(/*! ./DynaImage */ "./src/DynaImage.tsx");
 
@@ -1185,6 +1371,15 @@ Object.defineProperty(exports, "EImageMode", {
   enumerable: true,
   get: function get() {
     return DynaImage_1.EImageMode;
+  }
+});
+
+var DynaResponsiveImage_1 = __webpack_require__(/*! ./DynaResponsiveImage */ "./src/DynaResponsiveImage.tsx");
+
+Object.defineProperty(exports, "DynaResponsiveImage", {
+  enumerable: true,
+  get: function get() {
+    return DynaResponsiveImage_1.DynaResponsiveImage;
   }
 });
 
@@ -1566,44 +1761,248 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   return a;
 };
 
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.cropImage = void 0;
+exports.cropDivBackgroundImage = exports.cropImage = void 0;
 
 var Canvas2Image_1 = __webpack_require__(/*! ./Canvas2Image */ "./src/utils/Canvas2Image.ts");
 
-var cropImage = function cropImage(divWithBackgroundImage, percentageX1, percentageY1, percentageX2, percentageY2) {
-  var imageURL = divWithBackgroundImage.style.backgroundImage.split('"')[1];
-  var image = new Image();
-  image.src = imageURL;
-  image.setAttribute('crossorigin', 'anonymous');
+var cropImage = function cropImage(img, percentageX1, percentageY1, percentageX2, percentageY2) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      try {
+        img.src = "url(" + cropImageCore(img, percentageX1, percentageY1, percentageX2, percentageY2) + ")";
+      } catch (e) {
+        console.error('Dyna Image: crop error: ' + e.message, e);
+      }
 
-  image.onload = function () {
-    var x1 = getPxValue(percentageX1, image.width);
-    var x2 = getPxValue(percentageX2, image.width);
-    var y1 = getPxValue(percentageY1, image.height);
-    var y2 = getPxValue(percentageY2, image.height);
-    var width = x2 - x1;
-    var height = y2 - y1;
-    var canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    var ctx = canvas.getContext('2d');
-    ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(image, x1, // Copy from x
-    y1, // Copy from y
-    width, // Copy width
-    height, // Copy height
-    0, // Paste on x
-    0, // Paste on y
-    width, // Paste width
-    height);
-    var newImage = Canvas2Image_1.Canvas2Image.convertToPNG(canvas, canvas.width, canvas.height);
-    divWithBackgroundImage.style.backgroundImage = "url(" + (newImage === null || newImage === void 0 ? void 0 : newImage.src) + ")";
-  };
+      return [2
+      /*return*/
+      ];
+    });
+  });
 };
 
 exports.cropImage = cropImage;
+
+var cropDivBackgroundImage = function cropDivBackgroundImage(divWithBackgroundImage, percentageX1, percentageY1, percentageX2, percentageY2) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var imageURL, croppedImage, e_1;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          imageURL = divWithBackgroundImage.style.backgroundImage.split('"')[1];
+          return [4
+          /*yield*/
+          , cropImageByUrl(imageURL, percentageX1, percentageY1, percentageX2, percentageY2)];
+
+        case 1:
+          croppedImage = _a.sent();
+          divWithBackgroundImage.style.backgroundImage = "url(" + croppedImage + ")";
+          return [3
+          /*break*/
+          , 3];
+
+        case 2:
+          e_1 = _a.sent();
+          console.error('Dyna Image: crop error: ' + e_1.message, e_1);
+          return [3
+          /*break*/
+          , 3];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.cropDivBackgroundImage = cropDivBackgroundImage;
+
+var cropImageByUrl = function cropImageByUrl(imageURL, percentageX1, percentageY1, percentageX2, percentageY2) {
+  return new Promise(function (resolve, reject) {
+    var image = new Image();
+    image.src = imageURL;
+    image.setAttribute('crossorigin', 'anonymous');
+
+    image.onload = function () {
+      resolve(cropImageCore(image, percentageX1, percentageY1, percentageX2, percentageY2));
+    };
+
+    image.onerror = reject;
+  });
+};
+
+var cropImageCore = function cropImageCore(image, percentageX1, percentageY1, percentageX2, percentageY2) {
+  var x1 = getPxValue(percentageX1, image.width);
+  var x2 = getPxValue(percentageX2, image.width);
+  var y1 = getPxValue(percentageY1, image.height);
+  var y2 = getPxValue(percentageY2, image.height);
+  var width = x2 - x1;
+  var height = y2 - y1;
+  var canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  var ctx = canvas.getContext('2d');
+  ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(image, x1, // Copy from x
+  y1, // Copy from y
+  width, // Copy width
+  height, // Copy height
+  0, // Paste on x
+  0, // Paste on y
+  width, // Paste width
+  height);
+  var newImage = Canvas2Image_1.Canvas2Image.convertToPNG(canvas, canvas.width, canvas.height);
+  return newImage === null || newImage === void 0 ? void 0 : newImage.src;
+};
 
 var getPxValue = function getPxValue(percentage, size) {
   return size * percentage / 100;
@@ -1618,7 +2017,12 @@ var getPxValue = function getPxValue(percentage, size) {
     return;
   }
 
+  reactHotLoader.register(__awaiter, "__awaiter", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
+  reactHotLoader.register(__generator, "__generator", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
   reactHotLoader.register(cropImage, "cropImage", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
+  reactHotLoader.register(cropDivBackgroundImage, "cropDivBackgroundImage", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
+  reactHotLoader.register(cropImageByUrl, "cropImageByUrl", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
+  reactHotLoader.register(cropImageCore, "cropImageCore", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
   reactHotLoader.register(getPxValue, "getPxValue", "/Users/dennisat/dev/dyna/dyna-image/src/utils/cropDivBackgroundImage.ts");
 })();
 

@@ -24,17 +24,6 @@ export const dynaImageShowcase: IShowcaseView = {
   },
   props: [
     {
-      slug: 'actual-small',
-      title: 'Actual, Small Image',
-      props: {
-        src: smallImage,
-        mode: EImageMode.ACTUAL,
-        showLoadingSpinner: true,
-        onLoad: () => console.log('Image loaded'),
-        onError: (error) => console.error('Image load error', error),
-      } as IDynaImageProps,
-    },
-    {
       slug: 'fit-small',
       title: 'Fit, Small Image',
       props: {
@@ -51,17 +40,6 @@ export const dynaImageShowcase: IShowcaseView = {
       props: {
         src: smallImage,
         mode: EImageMode.FILL,
-        showLoadingSpinner: true,
-        onLoad: () => console.log('Image loaded'),
-        onError: (error) => console.error('Image load error', error),
-      } as IDynaImageProps,
-    },
-    {
-      slug: 'actual-big',
-      title: 'Actual, Big Image',
-      props: {
-        src: largeImage,
-        mode: EImageMode.ACTUAL,
         showLoadingSpinner: true,
         onLoad: () => console.log('Image loaded'),
         onError: (error) => console.error('Image load error', error),

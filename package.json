@@ -1,7 +1,7 @@
 {
   "name": "dyna-image",
-  "version": "2.2.2",
-  "description": "Render image in fit, fill or actual mode",
+  "version": "3.0.2",
+  "description": "Render image in fit or fill mode. Render easily responsive images using the <picture> and srcSet DOM's features.",
   "repository": {
     "type": "git",
     "url": "https://github.com/aneldev/dyna-image"

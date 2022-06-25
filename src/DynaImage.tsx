@@ -7,7 +7,7 @@ import {
 } from "react";
 
 import {Loading} from "./Loading";
-import {cropImage} from "./utils/cropDivBackgroundImage";
+import {cropDivBackgroundImage} from "./utils/cropDivBackgroundImage";
 
 import * as styles from "./DynaImage.module.less";
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
@@ -15,7 +15,8 @@ import {cn} from "./utils/cn";
 
 export interface IDynaImageProps {
   className?: string;
-  style?: React.CSSProperties;
+  style?: React.CSSProperties;      // Container's style
+  imgStyle?: React.CSSProperties;   // Image style (is div with background image)
 
   src: string;
 
@@ -41,7 +42,6 @@ export interface IDynaImageProps {
 }
 
 export enum EImageMode {
-  ACTUAL = "ACTUAL",
   FIT = "FIT",
   FILL = "FILL",
 }
@@ -50,6 +50,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
   const {
     className,
     style: userStyle,
+    imgStyle = {},
     src,
     mode = EImageMode.FIT,
     alt,
@@ -81,8 +82,6 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
           return 'contain';
         case EImageMode.FILL:
           return 'cover';
-        case EImageMode.ACTUAL:
-          return 'auto';
       }
     })(),
     transform: [
@@ -90,11 +89,12 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
       verticalMirror ? 'scaleY(-1)' : '',
     ].filter(Boolean).join(' '),
     filter: blackAndWhite ? 'grayscale(100%)' : undefined,
+    ...imgStyle,
   };
 
   const handleLoad = (): void => {
     if (crop && refDivWithBackgroundImage.current) {
-      cropImage(
+      cropDivBackgroundImage(
         refDivWithBackgroundImage.current,
         crop.percentageX1,
         crop.percentageY1,
