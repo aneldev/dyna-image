@@ -60,34 +60,38 @@ export const DynaResponsiveImageByContainer = (props: IDynaResponsiveImageProps)
         overflow: 'hidden',
       }}
     >
-      <img
-        width="100%"
-        alt={alt}
-        src={imageUrl}
-        style={{
-          transform: [
-            horizontalMirror ? 'scaleX(-1)' : '',
-            verticalMirror ? 'scaleY(-1)' : '',
-            zoom ? `scale(${zoom.zoom})` : '',
-          ].filter(Boolean).join(' '),
-          transformOrigin: zoom ? `${zoom.percentageX}% ${zoom.percentageY}%` : undefined,
-          filter: blackAndWhite ? 'grayscale(100%)' : undefined,
-          ...imgStyle,
-        }}
-        onLoad={onLoad}
-        onError={onError}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-        }}
-      >
-        {content}
-      </div>
+      {!!imageUrl && (
+        <>
+          <img
+            width="100%"
+            alt={alt}
+            src={imageUrl}
+            style={{
+              transform: [
+                horizontalMirror ? 'scaleX(-1)' : '',
+                verticalMirror ? 'scaleY(-1)' : '',
+                zoom ? `scale(${zoom.zoom})` : '',
+              ].filter(Boolean).join(' '),
+              transformOrigin: zoom ? `${zoom.percentageX}% ${zoom.percentageY}%` : undefined,
+              filter: blackAndWhite ? 'grayscale(100%)' : undefined,
+              ...imgStyle,
+            }}
+            onLoad={onLoad}
+            onError={onError}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+            }}
+          >
+            {content}
+          </div>
+        </>
+      )}
     </div>
   );
 };
