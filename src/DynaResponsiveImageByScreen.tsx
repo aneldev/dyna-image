@@ -1,5 +1,4 @@
 import * as React from "react";
-import {useRef} from "react";
 
 import {IDynaResponsiveImageProps} from "./interfaces";
 
@@ -17,8 +16,6 @@ export const DynaResponsiveImageByScreen = (props: IDynaResponsiveImageProps): J
     onLoad,
     onError,
   } = props;
-
-  const refImage = useRef<HTMLImageElement>(null);
 
   if (zoom && (verticalMirror || horizontalMirror)) {
     return (
@@ -68,7 +65,6 @@ export const DynaResponsiveImageByScreen = (props: IDynaResponsiveImageProps): J
         />
         <img
           width="100%"
-          ref={refImage}
           alt={alt}
           src={srcSet.main}
           style={{

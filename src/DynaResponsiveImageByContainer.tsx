@@ -1,7 +1,9 @@
 import * as React from "react";
-import {useRef} from "react";
+import {useState} from "react";
 
 import {IDynaResponsiveImageProps} from "./interfaces";
+
+import {useResizeEvent} from "./utils/useResizeEvent";
 
 export const DynaResponsiveImageByContainer = (props: IDynaResponsiveImageProps): JSX.Element => {
   const {
@@ -18,7 +20,28 @@ export const DynaResponsiveImageByContainer = (props: IDynaResponsiveImageProps)
     onError,
   } = props;
 
-  const refImage = useRef<HTMLImageElement>(null);
+  const [imageUrl, setImageUrl] = useState<string>('');
+
+  const imageVersions: { width: number; url: string }[] =
+    Object.entries(srcSet)
+      .filter(([width]) => width !== "main")
+      .map(([_width, url]) => ({
+        width: parseInt(_width.slice(1)),
+        url,
+      }))
+      .sort((a, b) => a.width - b.width);
+
+
+  const {ref} = useResizeEvent<HTMLDivElement>({
+    skipOnMount: false,
+    onResize: ({width: screenWidth}) => {
+      const imageVersion = imageVersions.find(version => version.width >= screenWidth);
+      const url = imageVersion
+        ? imageVersion.url
+        : imageVersions[imageVersions.length - 1].url;
+      setImageUrl(url);
+    },
+  });
 
   if (zoom && (verticalMirror || horizontalMirror)) {
     return (
@@ -30,61 +53,30 @@ export const DynaResponsiveImageByContainer = (props: IDynaResponsiveImageProps)
 
   return (
     <div
+      ref={ref}
       className={className}
       style={{
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      <picture>
-        <source
-          media="(max-width: 767px)"
-          srcSet={
-            [
-              `${srcSet.W192} 128w`,
-              `${srcSet.W384} 240w`,
-              `${srcSet.W384} 320w`,
-              `${srcSet.W768} 640w`,
-            ]
-              .join(', ')
-          }
-          sizes="100vw"
-        />
-        <source
-          media="(min-width: 768px)"
-          srcSet={
-            [
-              `${srcSet.W192} 128w`,
-              `${srcSet.W384} 240w`,
-              `${srcSet.W384} 320w`,
-              `${srcSet.W768} 640w`,
-              `${srcSet.W1024} 960w`,
-              `${srcSet.W2048} 2048w`,
-              `${srcSet.W4096} 4096w`,
-            ]
-              .join(', ')
-          }
-          sizes="50vw"
-        />
-        <img
-          width="100%"
-          ref={refImage}
-          alt={alt}
-          src={srcSet.main}
-          style={{
-            transform: [
-              horizontalMirror ? 'scaleX(-1)' : '',
-              verticalMirror ? 'scaleY(-1)' : '',
-              zoom ? `scale(${zoom.zoom})` : '',
-            ].filter(Boolean).join(' '),
-            transformOrigin: zoom ? `${zoom.percentageX}% ${zoom.percentageY}%` : undefined,
-            filter: blackAndWhite ? 'grayscale(100%)' : undefined,
-            ...imgStyle,
-          }}
-          onLoad={onLoad}
-          onError={onError}
-        />
-      </picture>
+      <img
+        width="100%"
+        alt={alt}
+        src={imageUrl}
+        style={{
+          transform: [
+            horizontalMirror ? 'scaleX(-1)' : '',
+            verticalMirror ? 'scaleY(-1)' : '',
+            zoom ? `scale(${zoom.zoom})` : '',
+          ].filter(Boolean).join(' '),
+          transformOrigin: zoom ? `${zoom.percentageX}% ${zoom.percentageY}%` : undefined,
+          filter: blackAndWhite ? 'grayscale(100%)' : undefined,
+          ...imgStyle,
+        }}
+        onLoad={onLoad}
+        onError={onError}
+      />
       <div
         style={{
           position: 'absolute',
