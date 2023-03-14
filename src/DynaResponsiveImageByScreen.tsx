@@ -1,4 +1,5 @@
 import * as React from "react";
+import {useState} from "react";
 
 import {IDynaResponsiveImageProps} from "./interfaces";
 
@@ -16,6 +17,13 @@ export const DynaResponsiveImageByScreen = (props: IDynaResponsiveImageProps): J
     onLoad,
     onError,
   } = props;
+
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  const handleLoad = () => {
+    setIsLoaded(true);
+    onLoad && onLoad();
+  };
 
   if (zoom && (verticalMirror || horizontalMirror)) {
     return (
@@ -77,12 +85,13 @@ export const DynaResponsiveImageByScreen = (props: IDynaResponsiveImageProps): J
             filter: blackAndWhite ? 'grayscale(100%)' : undefined,
             ...imgStyle,
           }}
-          onLoad={onLoad}
+          onLoad={handleLoad}
           onError={onError}
         />
       </picture>
       <div
         style={{
+          display: isLoaded ? undefined : 'none',
           position: 'absolute',
           top: 0,
           bottom: 0,
