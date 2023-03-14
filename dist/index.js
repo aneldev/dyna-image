@@ -1276,7 +1276,7 @@ var DynaResponsiveImageByContainer = function DynaResponsiveImageByContainer(pro
       position: 'relative',
       overflow: 'hidden'
     }
-  }, React.createElement("img", {
+  }, !!imageUrl && React.createElement(React.Fragment, null, React.createElement("img", {
     width: "100%",
     alt: alt,
     src: imageUrl,
@@ -1295,7 +1295,7 @@ var DynaResponsiveImageByContainer = function DynaResponsiveImageByContainer(pro
       left: 0,
       right: 0
     }
-  }, content));
+  }, content)));
 };
 
 exports.DynaResponsiveImageByContainer = DynaResponsiveImageByContainer;
@@ -1409,6 +1409,8 @@ exports.DynaResponsiveImageByScreen = void 0;
 
 var React = __importStar(__webpack_require__(/*! react */ "react"));
 
+var react_1 = __webpack_require__(/*! react */ "react");
+
 var DynaResponsiveImageByScreen = function DynaResponsiveImageByScreen(props) {
   var className = props.className,
       _a = props.imgStyle,
@@ -1422,6 +1424,15 @@ var DynaResponsiveImageByScreen = function DynaResponsiveImageByScreen(props) {
       zoom = props.zoom,
       onLoad = props.onLoad,
       onError = props.onError;
+
+  var _b = (0, react_1.useState)(false),
+      isLoaded = _b[0],
+      setIsLoaded = _b[1];
+
+  var handleLoad = function handleLoad() {
+    setIsLoaded(true);
+    onLoad && onLoad();
+  };
 
   if (zoom && (verticalMirror || horizontalMirror)) {
     return React.createElement("div", null, "DynaImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
@@ -1450,10 +1461,11 @@ var DynaResponsiveImageByScreen = function DynaResponsiveImageByScreen(props) {
       transformOrigin: zoom ? "".concat(zoom.percentageX, "% ").concat(zoom.percentageY, "%") : undefined,
       filter: blackAndWhite ? 'grayscale(100%)' : undefined
     }, imgStyle),
-    onLoad: onLoad,
+    onLoad: handleLoad,
     onError: onError
   })), React.createElement("div", {
     style: {
+      display: isLoaded ? undefined : 'none',
       position: 'absolute',
       top: 0,
       bottom: 0,
