@@ -1098,9 +1098,131 @@ exports.DynaResponsiveImage = void 0;
 
 var React = __importStar(__webpack_require__(/*! react */ "react"));
 
-var react_1 = __webpack_require__(/*! react */ "react");
+var DynaResponsiveImageByScreen_1 = __webpack_require__(/*! ./DynaResponsiveImageByScreen */ "./src/DynaResponsiveImageByScreen.tsx");
+
+var DynaResponsiveImageByContainer_1 = __webpack_require__(/*! ./DynaResponsiveImageByContainer */ "./src/DynaResponsiveImageByContainer.tsx");
 
 var DynaResponsiveImage = function DynaResponsiveImage(props) {
+  var relation = props.relation;
+  return relation === "screen" ? React.createElement(DynaResponsiveImageByScreen_1.DynaResponsiveImageByScreen, __assign({}, props)) : React.createElement(DynaResponsiveImageByContainer_1.DynaResponsiveImageByContainer, __assign({}, props));
+};
+
+exports.DynaResponsiveImage = DynaResponsiveImage;
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(__assign, "__assign", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(DynaResponsiveImage, "DynaResponsiveImage", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/DynaResponsiveImageByContainer.tsx":
+/*!************************************************!*\
+  !*** ./src/DynaResponsiveImageByContainer.tsx ***!
+  \************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function get() {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DynaResponsiveImageByContainer = void 0;
+
+var React = __importStar(__webpack_require__(/*! react */ "react"));
+
+var react_1 = __webpack_require__(/*! react */ "react");
+
+var useResizeEvent_1 = __webpack_require__(/*! ./utils/useResizeEvent */ "./src/utils/useResizeEvent.ts");
+
+var DynaResponsiveImageByContainer = function DynaResponsiveImageByContainer(props) {
   var className = props.className,
       _a = props.imgStyle,
       imgStyle = _a === void 0 ? {} : _a,
@@ -1113,7 +1235,193 @@ var DynaResponsiveImage = function DynaResponsiveImage(props) {
       zoom = props.zoom,
       onLoad = props.onLoad,
       onError = props.onError;
-  var refImage = (0, react_1.useRef)(null);
+
+  var _b = (0, react_1.useState)(''),
+      imageUrl = _b[0],
+      setImageUrl = _b[1];
+
+  var imageVersions = Object.entries(srcSet).filter(function (_a) {
+    var width = _a[0];
+    return width !== "main";
+  }).map(function (_a) {
+    var _width = _a[0],
+        url = _a[1];
+    return {
+      width: parseInt(_width.slice(1)),
+      url: url
+    };
+  }).sort(function (a, b) {
+    return a.width - b.width;
+  });
+  var ref = (0, useResizeEvent_1.useResizeEvent)({
+    skipOnMount: false,
+    onResize: function onResize(_a) {
+      var screenWidth = _a.width;
+      var imageVersion = imageVersions.find(function (version) {
+        return version.width >= screenWidth;
+      });
+      var url = imageVersion ? imageVersion.url : imageVersions[imageVersions.length - 1].url;
+      setImageUrl(url);
+    }
+  }).ref;
+
+  if (zoom && (verticalMirror || horizontalMirror)) {
+    return React.createElement("div", null, "DynaImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
+  }
+
+  return React.createElement("div", {
+    ref: ref,
+    className: className,
+    style: {
+      position: 'relative',
+      overflow: 'hidden'
+    }
+  }, React.createElement("img", {
+    width: "100%",
+    alt: alt,
+    src: imageUrl,
+    style: __assign({
+      transform: [horizontalMirror ? 'scaleX(-1)' : '', verticalMirror ? 'scaleY(-1)' : '', zoom ? "scale(".concat(zoom.zoom, ")") : ''].filter(Boolean).join(' '),
+      transformOrigin: zoom ? "".concat(zoom.percentageX, "% ").concat(zoom.percentageY, "%") : undefined,
+      filter: blackAndWhite ? 'grayscale(100%)' : undefined
+    }, imgStyle),
+    onLoad: onLoad,
+    onError: onError
+  }), React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0
+    }
+  }, content));
+};
+
+exports.DynaResponsiveImageByContainer = DynaResponsiveImageByContainer;
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(__assign, "__assign", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByContainer.tsx");
+  reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByContainer.tsx");
+  reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByContainer.tsx");
+  reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByContainer.tsx");
+  reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByContainer.tsx");
+  reactHotLoader.register(DynaResponsiveImageByContainer, "DynaResponsiveImageByContainer", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByContainer.tsx");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/DynaResponsiveImageByScreen.tsx":
+/*!*********************************************!*\
+  !*** ./src/DynaResponsiveImageByScreen.tsx ***!
+  \*********************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function get() {
+        return m[k];
+      }
+    };
+  }
+
+  Object.defineProperty(o, k2, desc);
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DynaResponsiveImageByScreen = void 0;
+
+var React = __importStar(__webpack_require__(/*! react */ "react"));
+
+var DynaResponsiveImageByScreen = function DynaResponsiveImageByScreen(props) {
+  var className = props.className,
+      _a = props.imgStyle,
+      imgStyle = _a === void 0 ? {} : _a,
+      srcSet = props.srcSet,
+      alt = props.alt,
+      content = props.content,
+      horizontalMirror = props.horizontalMirror,
+      verticalMirror = props.verticalMirror,
+      blackAndWhite = props.blackAndWhite,
+      zoom = props.zoom,
+      onLoad = props.onLoad,
+      onError = props.onError;
 
   if (zoom && (verticalMirror || horizontalMirror)) {
     return React.createElement("div", null, "DynaImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
@@ -1125,18 +1433,16 @@ var DynaResponsiveImage = function DynaResponsiveImage(props) {
       position: 'relative',
       overflow: 'hidden'
     }
-  }, React.createElement("picture", null, Object.keys(srcSet).filter(function (set) {
-    return set !== 'main' && !!srcSet[set];
-  }).map(function (set, index) {
-    return React.createElement("source", {
-      key: index,
-      media: "(max-width: ".concat(set.substring(1), "px)"),
-      srcSet: "".concat(srcSet[set], " ").concat(set.substring(1), "w"),
-      sizes: "100vw"
-    });
+  }, React.createElement("picture", null, React.createElement("source", {
+    media: "(max-width: 767px)",
+    srcSet: ["".concat(srcSet.W192, " 128w"), "".concat(srcSet.W384, " 240w"), "".concat(srcSet.W384, " 320w"), "".concat(srcSet.W768, " 640w")].join(', '),
+    sizes: "100vw"
+  }), React.createElement("source", {
+    media: "(min-width: 768px)",
+    srcSet: ["".concat(srcSet.W192, " 128w"), "".concat(srcSet.W384, " 240w"), "".concat(srcSet.W384, " 320w"), "".concat(srcSet.W768, " 640w"), "".concat(srcSet.W1024, " 960w"), "".concat(srcSet.W2048, " 2048w"), "".concat(srcSet.W4096, " 4096w")].join(', '),
+    sizes: "50vw"
   }), React.createElement("img", {
     width: "100%",
-    ref: refImage,
     alt: alt,
     src: srcSet.main,
     style: __assign({
@@ -1157,7 +1463,7 @@ var DynaResponsiveImage = function DynaResponsiveImage(props) {
   }, content));
 };
 
-exports.DynaResponsiveImage = DynaResponsiveImage;
+exports.DynaResponsiveImageByScreen = DynaResponsiveImageByScreen;
 ;
 
 (function () {
@@ -1167,12 +1473,12 @@ exports.DynaResponsiveImage = DynaResponsiveImage;
     return;
   }
 
-  reactHotLoader.register(__assign, "__assign", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
-  reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
-  reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
-  reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
-  reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
-  reactHotLoader.register(DynaResponsiveImage, "DynaResponsiveImage", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImage.tsx");
+  reactHotLoader.register(__assign, "__assign", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByScreen.tsx");
+  reactHotLoader.register(__createBinding, "__createBinding", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByScreen.tsx");
+  reactHotLoader.register(__setModuleDefault, "__setModuleDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByScreen.tsx");
+  reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByScreen.tsx");
+  reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByScreen.tsx");
+  reactHotLoader.register(DynaResponsiveImageByScreen, "DynaResponsiveImageByScreen", "/Users/dennisat/dev/dyna/dyna-image/src/DynaResponsiveImageByScreen.tsx");
 })();
 
 ;
@@ -2036,6 +2342,208 @@ var getPxValue = function getPxValue(percentage, size) {
 
 /***/ }),
 
+/***/ "./src/utils/useIsMounted.ts":
+/*!***********************************!*\
+  !*** ./src/utils/useIsMounted.ts ***!
+  \***********************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.useIsMounted = void 0;
+
+var react_1 = __webpack_require__(/*! react */ "react");
+
+var useIsMounted = function useIsMounted() {
+  var isMounted = (0, react_1.useRef)(false);
+  (0, react_1.useEffect)(function () {
+    isMounted.current = true;
+    return function () {
+      isMounted.current = false;
+    };
+  }, []);
+  return (0, react_1.useCallback)(function () {
+    return isMounted.current;
+  }, []);
+};
+
+exports.useIsMounted = useIsMounted;
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(useIsMounted, "useIsMounted", "/Users/dennisat/dev/dyna/dyna-image/src/utils/useIsMounted.ts");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/utils/useResizeEvent.ts":
+/*!*************************************!*\
+  !*** ./src/utils/useResizeEvent.ts ***!
+  \*************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.useResizeEvent = void 0;
+
+var react_1 = __webpack_require__(/*! react */ "react");
+
+var use_debounce_1 = __webpack_require__(/*! use-debounce */ "use-debounce");
+
+var react_resize_detector_1 = __webpack_require__(/*! react-resize-detector */ "react-resize-detector");
+
+var useIsMounted_1 = __webpack_require__(/*! ./useIsMounted */ "./src/utils/useIsMounted.ts");
+
+var useResizeEvent = function useResizeEvent(_a) {
+  var _b = _a === void 0 ? {} : _a,
+      _c = _b.refreshRate,
+      refreshRate = _c === void 0 ? 500 : _c,
+      _d = _b.minRefreshRate,
+      minRefreshRate = _d === void 0 ? refreshRate : _d,
+      _e = _b.skipOnMount,
+      skipOnMount = _e === void 0 ? true : _e,
+      _f = _b.leading,
+      leading = _f === void 0 ? true : _f,
+      _g = _b.trailing,
+      trailing = _g === void 0 ? true : _g,
+      _h = _b.onResize,
+      onResize = _h === void 0 ? function () {
+    return undefined;
+  } : _h;
+
+  var _j = (0, react_1.useState)(false),
+      mountEventCall = _j[0],
+      setMountEventCall = _j[1];
+
+  var _k = (0, react_1.useState)({
+    width: 0,
+    height: 0
+  }),
+      lastDimension = _k[0],
+      setLastDimension = _k[1];
+
+  var getIsMounted = (0, useIsMounted_1.useIsMounted)();
+
+  var getDimension = function getDimension(width, height) {
+    return {
+      width: width,
+      height: height
+    };
+  };
+
+  var handleContainerResize = (0, use_debounce_1.useDebouncedCallback)(function (width, height) {
+    var currentDimension = getDimension(width, height);
+    if (width === 0 && height === 0) return; // Ignore this useDebouncedCallback's call
+
+    if (!mountEventCall) {
+      setMountEventCall(true);
+      setLastDimension(currentDimension);
+
+      if (!skipOnMount) {
+        onResize({
+          width: width,
+          height: height,
+          diffPercentage: 0
+        });
+      }
+
+      return;
+    }
+
+    var widthDiffPercentage = Math.abs(100 * (width - lastDimension.width) / lastDimension.width);
+    var heightDiffPercentage = Math.abs(100 * (height - lastDimension.height) / lastDimension.height);
+    var diffPercentage = (widthDiffPercentage + heightDiffPercentage) / 2;
+    var sameDimension = diffPercentage === 0;
+    setLastDimension(currentDimension);
+
+    if (!sameDimension && getIsMounted()) {
+      onResize({
+        width: width,
+        height: height,
+        diffPercentage: diffPercentage
+      });
+    }
+  }, refreshRate, {
+    leading: leading,
+    trailing: trailing,
+    maxWait: minRefreshRate
+  });
+  var ref = (0, react_resize_detector_1.useResizeDetector)({
+    skipOnMount: false,
+    onResize: handleContainerResize
+  }).ref;
+  return {
+    ref: ref
+  };
+};
+
+exports.useResizeEvent = useResizeEvent;
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(useResizeEvent, "useResizeEvent", "/Users/dennisat/dev/dyna/dyna-image/src/utils/useResizeEvent.ts");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
 /***/ 0:
 /*!*****************************!*\
   !*** multi ./src/index.tsx ***!
@@ -2106,6 +2614,30 @@ module.exports = require("@material-ui/icons/BrokenImage");
 /***/ (function(module, exports) {
 
 module.exports = require("react");
+
+/***/ }),
+
+/***/ "react-resize-detector":
+/*!****************************************!*\
+  !*** external "react-resize-detector" ***!
+  \****************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("react-resize-detector");
+
+/***/ }),
+
+/***/ "use-debounce":
+/*!*******************************!*\
+  !*** external "use-debounce" ***!
+  \*******************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("use-debounce");
 
 /***/ })
 
