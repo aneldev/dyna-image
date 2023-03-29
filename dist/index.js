@@ -1279,6 +1279,7 @@ var DynaResponsiveImageByContainer = function DynaResponsiveImageByContainer(pro
   return React.createElement("div", {
     ref: ref,
     className: className,
+    "data-component-name": "DynaResponsiveImage",
     style: {
       position: 'relative',
       overflow: 'hidden'
@@ -1450,7 +1451,8 @@ var DynaResponsiveImageByScreen = function DynaResponsiveImageByScreen(props) {
     style: {
       position: 'relative',
       overflow: 'hidden'
-    }
+    },
+    "data-component-name": "DynaResponsiveImage"
   }, React.createElement("picture", null, React.createElement("source", {
     media: "(max-width: 767px)",
     srcSet: ["".concat(srcSet.W192, " 128w"), "".concat(srcSet.W384, " 240w"), "".concat(srcSet.W384, " 320w"), "".concat(srcSet.W768, " 640w")].join(', '),
