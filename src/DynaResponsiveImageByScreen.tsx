@@ -28,7 +28,7 @@ export const DynaResponsiveImageByScreen = (props: IDynaResponsiveImageProps): J
   if (zoom && (verticalMirror || horizontalMirror)) {
     return (
       <div>
-        DynaImage: <code>zoom</code> cannot work with <code>horizontalMirror</code> or <code>verticalMirror</code>.
+        DynaResponsiveImage: <code>zoom</code> cannot work with <code>horizontalMirror</code> or <code>verticalMirror</code>.
       </div>
     );
   }
@@ -40,6 +40,7 @@ export const DynaResponsiveImageByScreen = (props: IDynaResponsiveImageProps): J
         position: 'relative',
         overflow: 'hidden',
       }}
+      data-component-name="DynaResponsiveImage"
     >
       <picture>
         <source

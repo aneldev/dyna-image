@@ -1235,11 +1235,6 @@ var DynaResponsiveImageByContainer = function DynaResponsiveImageByContainer(pro
       zoom = props.zoom,
       onLoad = props.onLoad,
       onError = props.onError;
-
-  var _b = (0, react_1.useState)(''),
-      imageUrl = _b[0],
-      setImageUrl = _b[1];
-
   var imageVersions = Object.entries(srcSet).filter(function (_a) {
     var width = _a[0];
     return width !== "main";
@@ -1253,20 +1248,32 @@ var DynaResponsiveImageByContainer = function DynaResponsiveImageByContainer(pro
   }).sort(function (a, b) {
     return a.width - b.width;
   });
+
+  var _b = (0, react_1.useState)(''),
+      imageUrl = _b[0],
+      setImageUrl = _b[1];
+
+  var _c = (0, react_1.useState)(0),
+      containerWidth = _c[0],
+      setContainerWidth = _c[1];
+
   var ref = (0, useResizeEvent_1.useResizeEvent)({
     skipOnMount: false,
     onResize: function onResize(_a) {
-      var screenWidth = _a.width;
-      var imageVersion = imageVersions.find(function (version) {
-        return version.width >= screenWidth;
-      });
-      var url = imageVersion ? imageVersion.url : imageVersions[imageVersions.length - 1].url;
-      setImageUrl(url);
+      var containerWidth = _a.width;
+      return setContainerWidth(containerWidth);
     }
   }).ref;
+  (0, react_1.useEffect)(function () {
+    var imageVersion = imageVersions.find(function (version) {
+      return version.width >= containerWidth;
+    });
+    var url = imageVersion ? imageVersion.url : imageVersions[imageVersions.length - 1].url;
+    setImageUrl(url);
+  }, [containerWidth, srcSet.main]);
 
   if (zoom && (verticalMirror || horizontalMirror)) {
-    return React.createElement("div", null, "DynaImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
+    return React.createElement("div", null, "DynaResponsiveImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
   }
 
   return React.createElement("div", {
@@ -1435,7 +1442,7 @@ var DynaResponsiveImageByScreen = function DynaResponsiveImageByScreen(props) {
   };
 
   if (zoom && (verticalMirror || horizontalMirror)) {
-    return React.createElement("div", null, "DynaImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
+    return React.createElement("div", null, "DynaResponsiveImage: ", React.createElement("code", null, "zoom"), " cannot work with ", React.createElement("code", null, "horizontalMirror"), " or ", React.createElement("code", null, "verticalMirror"), ".");
   }
 
   return React.createElement("div", {

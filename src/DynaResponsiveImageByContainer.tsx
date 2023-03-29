@@ -1,5 +1,8 @@
 import * as React from "react";
-import {useState} from "react";
+import {
+  useState,
+  useEffect,
+} from "react";
 
 import {IDynaResponsiveImageProps} from "./interfaces";
 
@@ -20,8 +23,6 @@ export const DynaResponsiveImageByContainer = (props: IDynaResponsiveImageProps)
     onError,
   } = props;
 
-  const [imageUrl, setImageUrl] = useState<string>('');
-
   const imageVersions: { width: number; url: string }[] =
     Object.entries(srcSet)
       .filter(([width]) => width !== "main")
@@ -31,22 +32,26 @@ export const DynaResponsiveImageByContainer = (props: IDynaResponsiveImageProps)
       }))
       .sort((a, b) => a.width - b.width);
 
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   const {ref} = useResizeEvent<HTMLDivElement>({
     skipOnMount: false,
-    onResize: ({width: screenWidth}) => {
-      const imageVersion = imageVersions.find(version => version.width >= screenWidth);
-      const url = imageVersion
-        ? imageVersion.url
-        : imageVersions[imageVersions.length - 1].url;
-      setImageUrl(url);
-    },
+    onResize: ({width: containerWidth}) => setContainerWidth(containerWidth),
   });
+
+  useEffect(() => {
+    const imageVersion = imageVersions.find(version => version.width >= containerWidth);
+    const url = imageVersion
+      ? imageVersion.url
+      : imageVersions[imageVersions.length - 1].url;
+    setImageUrl(url);
+  }, [containerWidth, srcSet.main]);
 
   if (zoom && (verticalMirror || horizontalMirror)) {
     return (
       <div>
-        DynaImage: <code>zoom</code> cannot work with <code>horizontalMirror</code> or <code>verticalMirror</code>.
+        DynaResponsiveImage: <code>zoom</code> cannot work with <code>horizontalMirror</code> or <code>verticalMirror</code>.
       </div>
     );
   }
@@ -55,6 +60,7 @@ export const DynaResponsiveImageByContainer = (props: IDynaResponsiveImageProps)
     <div
       ref={ref}
       className={className}
+      data-component-name="DynaResponsiveImage"
       style={{
         position: 'relative',
         overflow: 'hidden',
