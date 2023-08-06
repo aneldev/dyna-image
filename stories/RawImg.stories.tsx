@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Meta} from '@storybook/react/types-6-0';
 
-import {ISrcSet} from "../";
+import {ISrcSet} from "../src";
 
 const meta: Meta = {
   title: 'Raw img with srcSet',

@@ -6,6 +6,8 @@ import {
   useRef,
 } from "react";
 
+import objectHash from 'object-hash';
+
 import {Loading} from "./Loading";
 import {cropDivBackgroundImage} from "./utils/cropDivBackgroundImage";
 
@@ -119,7 +121,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
         isLoading={showLoadingSpinner && isLoading}
       >
         <div
-          key={JSON.stringify(props)}
+          key={objectHash(props)}
           className={styles.imageContainer}
           ref={refDivWithBackgroundImage}
           style={style}

@@ -877,6 +877,8 @@ var React = __importStar(__webpack_require__(/*! react */ "react"));
 
 var react_1 = __webpack_require__(/*! react */ "react");
 
+var object_hash_1 = __importDefault(__webpack_require__(/*! object-hash */ "object-hash"));
+
 var Loading_1 = __webpack_require__(/*! ./Loading */ "./src/Loading.tsx");
 
 var cropDivBackgroundImage_1 = __webpack_require__(/*! ./utils/cropDivBackgroundImage */ "./src/utils/cropDivBackgroundImage.ts");
@@ -964,7 +966,7 @@ var DynaImage = function DynaImage(props) {
     style: userStyle,
     isLoading: showLoadingSpinner && isLoading
   }, React.createElement("div", {
-    key: JSON.stringify(props),
+    key: (0, object_hash_1["default"])(props),
     className: styles.imageContainer,
     ref: refDivWithBackgroundImage,
     style: style
@@ -999,6 +1001,7 @@ exports.DynaImage = DynaImage;
   reactHotLoader.register(__importStar, "__importStar", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(__importDefault, "__importDefault", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(React, "React", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
+  reactHotLoader.register(object_hash_1, "object_hash_1", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(styles, "styles", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(BrokenImage_1, "BrokenImage_1", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
   reactHotLoader.register(EImageMode, "EImageMode", "/Users/dennisat/dev/dyna/dyna-image/src/DynaImage.tsx");
@@ -2623,6 +2626,18 @@ module.exports = require("@material-ui/core/styles/makeStyles");
 /***/ (function(module, exports) {
 
 module.exports = require("@material-ui/icons/BrokenImage");
+
+/***/ }),
+
+/***/ "object-hash":
+/*!******************************!*\
+  !*** external "object-hash" ***!
+  \******************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("object-hash");
 
 /***/ }),
 
