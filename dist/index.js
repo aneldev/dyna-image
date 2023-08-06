@@ -946,6 +946,10 @@ var DynaImage = function DynaImage(props) {
     filter: blackAndWhite ? 'grayscale(100%)' : undefined
   }, imgStyle);
 
+  var key = (0, object_hash_1["default"])(__assign(__assign({}, props), {
+    content: undefined
+  }));
+
   var handleLoad = function handleLoad() {
     if (crop && refDivWithBackgroundImage.current) {
       (0, cropDivBackgroundImage_1.cropDivBackgroundImage)(refDivWithBackgroundImage.current, crop.percentageX1, crop.percentageY1, crop.percentageX2, crop.percentageY2);
@@ -966,7 +970,7 @@ var DynaImage = function DynaImage(props) {
     style: userStyle,
     isLoading: showLoadingSpinner && isLoading
   }, React.createElement("div", {
-    key: (0, object_hash_1["default"])(props),
+    key: key,
     className: styles.imageContainer,
     ref: refDivWithBackgroundImage,
     style: style
