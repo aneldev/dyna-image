@@ -94,6 +94,11 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
     ...imgStyle,
   };
 
+  const key = objectHash({
+    ...props,
+    content: undefined,
+  });
+
   const handleLoad = (): void => {
     if (crop && refDivWithBackgroundImage.current) {
       cropDivBackgroundImage(
@@ -121,7 +126,7 @@ export const DynaImage = (props: IDynaImageProps): JSX.Element => {
         isLoading={showLoadingSpinner && isLoading}
       >
         <div
-          key={objectHash(props)}
+          key={key}
           className={styles.imageContainer}
           ref={refDivWithBackgroundImage}
           style={style}
