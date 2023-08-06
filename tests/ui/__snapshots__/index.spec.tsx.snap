@@ -7,7 +7,7 @@ exports[`Home render DynaImage 1`] = `
     isLoading={false}
   >
     <div
-      key="0c2a2f043883bc6bf81ec1cacf9ec7a67a4bedcc"
+      key="99d636f52cdb569a536ce5588ca70057ac9b262e"
       style={
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
@@ -49,7 +49,7 @@ exports[`Home rendered with minimum set of props 1`] = `
     isLoading={false}
   >
     <div
-      key="6e6d14261099690645f746872e5bd0749f90210e"
+      key="24a720c68af9263b65b4b6cbeec7228aae23b696"
       style={
         Object {
           "backgroundImage": "url(https://www.example.com/eifel.jpg)",
