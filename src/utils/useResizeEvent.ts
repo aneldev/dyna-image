@@ -25,6 +25,8 @@ export interface IResizeEventArgs {
 
 export interface IUseResizeEventAPI<TElement> {
   ref: MutableRefObject<TElement | null>;
+  width: number;
+  height: number;
 }
 
 interface IDimension {
@@ -44,7 +46,7 @@ export const useResizeEvent = <TElement>(
   = {},
 ): IUseResizeEventAPI<TElement> => {
   const [mountEventCall, setMountEventCall] = useState<boolean>(false);
-  const [lastDimension, setLastDimension] = useState<IDimension>({
+  const [dimension, setDimension] = useState<IDimension>({
     width: 0,
     height: 0,
   });
@@ -63,7 +65,7 @@ export const useResizeEvent = <TElement>(
 
       if (!mountEventCall) {
         setMountEventCall(true);
-        setLastDimension(currentDimension);
+        setDimension(currentDimension);
         if (!skipOnMount) {
           onResize({
             width,
@@ -74,12 +76,12 @@ export const useResizeEvent = <TElement>(
         return;
       }
 
-      const widthDiffPercentage = Math.abs(100 * (width - lastDimension.width) / lastDimension.width);
-      const heightDiffPercentage = Math.abs(100 * (height - lastDimension.height) / lastDimension.height);
+      const widthDiffPercentage = Math.abs(100 * (width - dimension.width) / dimension.width);
+      const heightDiffPercentage = Math.abs(100 * (height - dimension.height) / dimension.height);
       const diffPercentage = (widthDiffPercentage + heightDiffPercentage) / 2;
       const sameDimension = diffPercentage === 0;
 
-      setLastDimension(currentDimension);
+      setDimension(currentDimension);
       if (!sameDimension && getIsMounted()) {
         onResize({
           width,
@@ -101,5 +103,8 @@ export const useResizeEvent = <TElement>(
     onResize: handleContainerResize,
   });
 
-  return {ref};
+  return {
+    ref: ref as any,
+    ...dimension,
+  };
 };
