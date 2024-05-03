@@ -14,5 +14,7 @@ export interface IResizeEventArgs {
 }
 export interface IUseResizeEventAPI<TElement> {
     ref: MutableRefObject<TElement | null>;
+    width: number;
+    height: number;
 }
 export declare const useResizeEvent: <TElement>({ refreshRate, minRefreshRate, skipOnMount, leading, trailing, onResize, }?: IUseResizeEventArgs) => IUseResizeEventAPI<TElement>;

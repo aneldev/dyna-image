@@ -34,8 +34,7 @@
     "sync-usages": "node sync-usages.js",
     "sync-usages-watch": "node sync-usages.js --watch",
     "publish-push": "yarn version --patch && yarn publish --non-interactive && git push && git push --tags",
-    "release": "yarn build && yarn test && git add -u && git add -A && git commit --allow-empty -m \"Build changes\" && yarn publish-push",
-    "upgrade-release": "yarn upgrade && yarn release"
+    "release": "yarn build && yarn test && git add -u && git add -A && git commit --allow-empty -m \"Build changes\" && yarn publish-push"
   },
   "keywords": [
     "react",

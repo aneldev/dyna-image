@@ -2453,6 +2453,22 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   return a;
 };
 
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -2491,8 +2507,8 @@ var useResizeEvent = function useResizeEvent(_a) {
     width: 0,
     height: 0
   }),
-      lastDimension = _k[0],
-      setLastDimension = _k[1];
+      dimension = _k[0],
+      setDimension = _k[1];
 
   var getIsMounted = (0, useIsMounted_1.useIsMounted)();
 
@@ -2509,7 +2525,7 @@ var useResizeEvent = function useResizeEvent(_a) {
 
     if (!mountEventCall) {
       setMountEventCall(true);
-      setLastDimension(currentDimension);
+      setDimension(currentDimension);
 
       if (!skipOnMount) {
         onResize({
@@ -2522,11 +2538,11 @@ var useResizeEvent = function useResizeEvent(_a) {
       return;
     }
 
-    var widthDiffPercentage = Math.abs(100 * (width - lastDimension.width) / lastDimension.width);
-    var heightDiffPercentage = Math.abs(100 * (height - lastDimension.height) / lastDimension.height);
+    var widthDiffPercentage = Math.abs(100 * (width - dimension.width) / dimension.width);
+    var heightDiffPercentage = Math.abs(100 * (height - dimension.height) / dimension.height);
     var diffPercentage = (widthDiffPercentage + heightDiffPercentage) / 2;
     var sameDimension = diffPercentage === 0;
-    setLastDimension(currentDimension);
+    setDimension(currentDimension);
 
     if (!sameDimension && getIsMounted()) {
       onResize({
@@ -2544,9 +2560,9 @@ var useResizeEvent = function useResizeEvent(_a) {
     skipOnMount: false,
     onResize: handleContainerResize
   }).ref;
-  return {
+  return __assign({
     ref: ref
-  };
+  }, dimension);
 };
 
 exports.useResizeEvent = useResizeEvent;
@@ -2559,6 +2575,7 @@ exports.useResizeEvent = useResizeEvent;
     return;
   }
 
+  reactHotLoader.register(__assign, "__assign", "/Users/dennisat/dev/dyna/dyna-image/src/utils/useResizeEvent.ts");
   reactHotLoader.register(useResizeEvent, "useResizeEvent", "/Users/dennisat/dev/dyna/dyna-image/src/utils/useResizeEvent.ts");
 })();
 
