@@ -1,3 +1,5 @@
+import {dynaError} from "dyna-error";
+
 import {Canvas2Image} from "./Canvas2Image";
 
 export const cropImage = async (
@@ -11,7 +13,8 @@ export const cropImage = async (
     img.src = "url(" + cropImageCore(img, percentageX1, percentageY1, percentageX2, percentageY2) + ")";
   }
   catch (e) {
-    console.error('Dyna Image: crop error: ' + e.message, e);
+    const error = dynaError(e);
+    console.error('Dyna Image: crop error: ' + error.message, error);
   }
 };
 
@@ -34,7 +37,8 @@ export const cropDivBackgroundImage = async (
     divWithBackgroundImage.style.backgroundImage = "url(" + croppedImage + ")";
   }
   catch (e) {
-    console.error('Dyna Image: crop error: ' + e.message, e);
+    const error = dynaError(e);
+    console.error('Dyna Image: crop error: ' + error.message, error);
   }
 };
 

@@ -6,4 +6,5 @@ export interface ILoadingProps {
     showCircularIcon?: boolean;
     children: any;
 }
-export declare const Loading: (props: ILoadingProps) => JSX.Element;
+export declare const Loading: (props: ILoadingProps) => import("react/jsx-runtime").JSX.Element;
+//# sourceMappingURL=Loading.d.ts.map

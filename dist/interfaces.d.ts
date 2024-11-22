@@ -35,3 +35,4 @@ export interface ISrcSet {
     W2048?: string;
     W4096?: string;
 }
+//# sourceMappingURL=interfaces.d.ts.map
