@@ -26,3 +26,4 @@ export declare enum EImageMode {
     FILL = "FILL"
 }
 export declare const DynaImage: (props: IDynaImageProps) => JSX.Element;
+//# sourceMappingURL=DynaImage.d.ts.map

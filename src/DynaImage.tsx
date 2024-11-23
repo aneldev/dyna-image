@@ -6,7 +6,7 @@ import {
   useRef,
 } from "react";
 
-import objectHash from 'object-hash';
+import objectHash from "object-hash";
 
 import {Loading} from "./Loading";
 import {cropDivBackgroundImage} from "./utils/cropDivBackgroundImage";

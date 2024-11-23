@@ -18,3 +18,4 @@ export interface IUseResizeEventAPI<TElement> {
     height: number;
 }
 export declare const useResizeEvent: <TElement>({ refreshRate, minRefreshRate, skipOnMount, leading, trailing, onResize, }?: IUseResizeEventArgs) => IUseResizeEventAPI<TElement>;
+//# sourceMappingURL=useResizeEvent.d.ts.map

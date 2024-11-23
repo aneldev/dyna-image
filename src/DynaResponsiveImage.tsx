@@ -1,4 +1,3 @@
-import * as React from "react";
 import {IDynaResponsiveImageProps} from "./interfaces";
 
 import {DynaResponsiveImageByScreen} from "./DynaResponsiveImageByScreen";

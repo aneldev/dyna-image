@@ -59,7 +59,9 @@ export const useResizeEvent = <TElement>(
   });
 
   const handleContainerResize = useDebouncedCallback(
-    (width: number, height: number) => {
+    (width: number | undefined, height: number | undefined) => {
+      if (width === undefined) return; // 4TS
+      if (height === undefined) return; // 4TS
       const currentDimension = getDimension(width, height);
       if (width === 0 && height === 0) return; // Ignore this useDebouncedCallback's call
 
