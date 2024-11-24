@@ -180,3 +180,6 @@ This has a crop effect.
 - Change: `<DynaImage>`'s `ACTUAL` mode is omitted.
 - New: `<DynaResponseveImage>` SEO friendly and supports multiple responsive image versions.
 
+## 4.0.0
+
+- Switch to React V18
